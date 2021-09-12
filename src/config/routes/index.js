@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import React, { lazy, Suspense, useMemo, useCallback } from 'react'
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 import { PrivateTemplate, PublicTemplate } from 'templates'
-import { Routers, Constant } from 'utils'
+import { Routers, Constants } from 'utils'
 
-const EmptyPage = lazy(() => import('pages/EmptyPage'))
+const EmptyPage = lazy(() => import('pages/NotFoundPage'))
 //  public page
-const LoginPage = lazy(() => import('pages/Login'))
+const LoginPage = lazy(() => import('pages/LoginPage'))
 const ForgotPasswordPage = lazy(() => import('pages/ForgotPassword'))
 const ResetPasswordPage = lazy(() => import('pages/ResetPassword'))
 
@@ -20,12 +20,14 @@ const Routes = ({ isLoggedIn, ...rest }) => {
 
   const isPrivateRouter = useMemo(() => {
     return (
-      Constant.privateRouter.map(e => e.URL).indexOf(location.pathname) > -1
+      Constants.privateRouter.map(e => e.URL).indexOf(location.pathname) > -1
     )
   }, [location.pathname])
 
   const isPublicRouter = useMemo(() => {
-    return Constant.publicRouter.map(e => e.URL).indexOf(location.pathname) > -1
+    return (
+      Constants.publicRouter.map(e => e.URL).indexOf(location.pathname) > -1
+    )
   }, [location.pathname])
 
   const _handleBadRouter = useCallback(() => {

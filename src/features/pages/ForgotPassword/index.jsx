@@ -1,4 +1,3 @@
-import { useTheme } from 'hooks'
 import React, { useCallback, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Routers } from 'utils'
@@ -17,7 +16,6 @@ import { userModel } from './validation'
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('')
-  const theme = useTheme()
   const history = useHistory()
   const onGotoLoginPage = useCallback(
     () => history.push(Routers.SIGN_IN_PAGE),
@@ -49,7 +47,6 @@ const ForgotPasswordPage = () => {
           label={'Về trang đăng nhập'}
           icon={'feather-arrow-left'}
           onClick={onGotoLoginPage}
-          color={theme.colors.blue}
         />
       </FooterWrapper>
     </LayoutWrapper>

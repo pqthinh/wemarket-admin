@@ -5,7 +5,7 @@ const Loading = () => {
   return (
     <LoadingWrapper>
       <LoadingBox>
-        <LoadingSpinner backdrop />
+        <LoadingSpinner size={50} color={'#FF814D'} />
       </LoadingBox>
     </LoadingWrapper>
   )

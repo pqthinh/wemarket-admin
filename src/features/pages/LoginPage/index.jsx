@@ -1,5 +1,7 @@
 import { InputGroup } from 'molecules'
 import React, { useCallback, useState } from 'react'
+import { useRequestManager, useToken, useUser } from 'hooks'
+import { EndPoint } from 'config/api'
 import { useHistory } from 'react-router-dom'
 import { Routers } from 'utils'
 import {
@@ -12,6 +14,7 @@ import {
   LayoutWrapper
 } from './styled'
 import { userModel } from './validation'
+import { withEmpty } from 'exp-value'
 
 // const fakedata = {
 //   data: {
@@ -44,25 +47,40 @@ import { userModel } from './validation'
 // }
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [values, setValues] = useState({
-    password: '',
-    showPassword: false
+  const [data, setData] = useState({
+    username: '',
+    password: ''
   })
 
-  const history = useHistory()
+  const [showPassword, setShowPassword] = useState(false)
 
-  const onChangeUsername = useCallback(v => setUsername(v), [username])
-  const onChangePassword = useCallback(v => setPassword(v), [password])
+  const history = useHistory()
+  const { onPostExecute } = useRequestManager()
+  const { saveToken } = useToken()
+  const { saveUser } = useUser()
+
+  const onChange = useCallback(
+    (name, value) => setData(prev => ({ ...prev, [name]: value })),
+    [data]
+  )
 
   const onSubmit = useCallback(() => {
-    console.log(username, password)
-  }, [username, password])
+    console.log(data)
+    async function execute(data) {
+      const result = await onPostExecute(EndPoint.LOGIN, data)
+      console.log(result, 'login')
+      if (result) {
+        await saveToken(withEmpty('accessToken', result))
+        saveUser(result)
+        history.push('/')
+      }
+    }
+    execute(data)
+  }, [data])
 
   const onShowPassword = useCallback(
-    () => setValues({ ...values, showPassword: !values.showPassword }),
-    [values]
+    () => setShowPassword(!showPassword),
+    [showPassword]
   )
   const onGotoForgotPassword = useCallback(
     () => history.push(Routers.FORGOT_PASSWORD_PAGE),
@@ -74,22 +92,22 @@ const LoginPage = () => {
       <Header title='BIDMA portal' subTitle='Đăng nhập' />
       <Form fluid model={userModel} onSubmit={onSubmit}>
         <InputGroup
-          value={username}
-          onChange={onChangeUsername}
+          value={data.username}
+          onChange={e => onChange('username', e)}
           placeholder={'Tên đăng nhập'}
           name={'username'}
           leftIcon={<Icon name={'feather-user'} />}
         />
         <InputGroup
-          value={password}
-          onChange={onChangePassword}
+          value={data.password}
+          onChange={e => onChange('password', e)}
           placeholder={'Mật khẩu'}
           name={'password'}
-          type={values.showPassword ? 'text' : 'password'}
+          type={showPassword ? 'text' : 'password'}
           leftIcon={<Icon name={'feather-lock'} />}
           rightIcon={
             <Icon
-              name={values.showPassword ? 'feather-eye-off' : 'feather-eye'}
+              name={showPassword ? 'feather-eye-off' : 'feather-eye'}
               background='true'
               onClick={onShowPassword}
             />

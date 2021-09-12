@@ -1,22 +1,19 @@
+import { LightTheme } from 'config/theme'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
 import { RecoilRoot } from 'recoil'
-import reportWebVitals from './reportWebVitals'
 import { ThemeProvider } from 'styled-components'
-import { LightTheme } from 'config/theme'
-import AppProvider from 'stores/app_context'
+import App from './App'
 import './i18n'
+import reportWebVitals from './reportWebVitals'
 
 const AppWrapper = props => {
   return (
     <React.StrictMode>
       <RecoilRoot>
-        <AppProvider>
-          <ThemeProvider theme={LightTheme}>
-            <App {...props} />
-          </ThemeProvider>
-        </AppProvider>
+        <ThemeProvider theme={LightTheme}>
+          <App {...props} />
+        </ThemeProvider>
       </RecoilRoot>
     </React.StrictMode>
   )

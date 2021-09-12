@@ -1,10 +1,10 @@
 const EndPoint = {
-  LOGIN_API: 'auth/login/sysAdmin',
-  REGISTER_API: 'admins/register',
+  LOGIN: 'login',
   ADMIN_PROFILE: 'admins/profile',
   RESET_PASSWORD: 'auth/resetPassword',
   STAFFS: 'staffs',
-  ACCOUNTS: 'accounts'
+  ACCOUNTS: 'accounts',
+  IMAGE: 'image'
 }
 
 export default EndPoint

@@ -1,2 +1,2 @@
-export { default as Constant } from './Constant'
+export { default as Constants } from './Constants'
 export { default as Routers } from './Routers'
