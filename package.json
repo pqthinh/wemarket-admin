@@ -21,6 +21,7 @@
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-preset-rsuite": "^4.0.1",
     "compression-webpack-plugin": "3.1.0",
+    "cors": "^2.8.5",
     "css-loader": "^5.2.4",
     "dayjs": "^1.10.5",
     "dotenv-webpack": "^7.0.3",
@@ -102,5 +103,10 @@
     "eslint": "^7.32.0",
     "prettier": "^2.4.0",
     "webpack-dev-server": "^3.11.2"
+  },
+  "proxy": {
+    "*": {
+      "target": "http://localhost:4000"
+    }
   }
 }

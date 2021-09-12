@@ -172,7 +172,7 @@ const Sidebar = props => {
           {renderHeaderSidebar()}
           <MenuBody>
             {renderMenuSidebar()}
-            {renderFooter(JSON.parse(user))}
+            {renderFooter(JSON.parse(JSON.stringify(user)))}
           </MenuBody>
         </Menu>
       </WrapperContainer>

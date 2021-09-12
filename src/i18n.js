@@ -8,9 +8,9 @@ i18n
   .use(backend)
   .use(reactI18nextModule)
   .init({
-    ns: ['common', 'menu'],
-    defaultNS: 'common',
-    fallbackLng: "en",
+    ns: ['vi', 'en'],
+    defaultNS: 'vi',
+    fallbackLng: 'vi',
     keySeparator: false,
     interpolation: {
       escapeValue: false // react already safes from xss

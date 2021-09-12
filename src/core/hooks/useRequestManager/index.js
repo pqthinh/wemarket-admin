@@ -34,7 +34,7 @@ const useRequestManager = () => {
         } catch (error) {
           setStatus(withNull('response.status', error))
           setLoading(false)
-          showError(withNull('response.data.message', error))
+          showError(withNull('response.message', error))
         }
       }
 

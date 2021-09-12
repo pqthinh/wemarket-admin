@@ -48,7 +48,7 @@ import { withEmpty } from 'exp-value'
 
 const LoginPage = () => {
   const [data, setData] = useState({
-    username: '',
+    email: '',
     password: ''
   })
 
@@ -67,16 +67,16 @@ const LoginPage = () => {
   const onSubmit = useCallback(() => {
     console.log(data)
     async function execute(data) {
-      const result = await onPostExecute(EndPoint.LOGIN, data)
+      const result = await onPostExecute(EndPoint.LOGIN, data, false)
       console.log(result, 'login')
       if (result) {
-        await saveToken(withEmpty('accessToken', result))
+        await saveToken(withEmpty('data.token', result))
         saveUser(result)
         history.push('/')
       }
     }
     execute(data)
-  }, [data])
+  })
 
   const onShowPassword = useCallback(
     () => setShowPassword(!showPassword),
@@ -92,10 +92,10 @@ const LoginPage = () => {
       <Header title='BIDMA portal' subTitle='Đăng nhập' />
       <Form fluid model={userModel} onSubmit={onSubmit}>
         <InputGroup
-          value={data.username}
-          onChange={e => onChange('username', e)}
-          placeholder={'Tên đăng nhập'}
-          name={'username'}
+          value={data.email}
+          onChange={e => onChange('email', e)}
+          placeholder={'Email'}
+          name={'email'}
           leftIcon={<Icon name={'feather-user'} />}
         />
         <InputGroup

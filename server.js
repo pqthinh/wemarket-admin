@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const sign = require('jwt-encode')
+var cors = require('cors')
+app.use(cors())
 const secret = process.env.ENCRYPTION_KEY || 'marketplace-default'
 
 app.use(express.json({ limit: '64mb' }))
@@ -16,7 +18,8 @@ app.get('/hello', (req, res) => {
 
 app.post('/login', (req, res) => {
   const { email, password } = req.body
-  if (password !== 'thinh')
+  console.log(req.body)
+  if (password !== 'Thinhpq@11')
     res.status(200).json({ data: null, message: 'Sai mat khau' })
 
   const data = {
@@ -26,7 +29,7 @@ app.post('/login', (req, res) => {
   }
   const jwt = sign(data, secret)
 
-  res.status(200).json({ data: data, token: jwt })
+  res.status(200).json({ data: { user: data, token: jwt }, message: null })
 })
 
 app.listen(4000, () => {
