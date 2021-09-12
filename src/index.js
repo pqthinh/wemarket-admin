@@ -1,17 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import { RecoilRoot } from 'recoil'
+import reportWebVitals from './reportWebVitals'
+import { ThemeProvider } from 'styled-components'
+import { LightTheme } from 'config/theme'
+import AppProvider from 'stores/app_context'
+import './i18n'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const AppWrapper = props => {
+  return (
+    <React.StrictMode>
+      <RecoilRoot>
+        <AppProvider>
+          <ThemeProvider theme={LightTheme}>
+            <App {...props} />
+          </ThemeProvider>
+        </AppProvider>
+      </RecoilRoot>
+    </React.StrictMode>
+  )
+}
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+ReactDOM.render(<AppWrapper />, document.getElementById('root'))
+
+reportWebVitals(process.env.NODE_ENV === 'development' ? console.log : null)
