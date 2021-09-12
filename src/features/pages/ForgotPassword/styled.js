@@ -27,4 +27,5 @@ export const BackButton = styled(ButtonGroup)`
   align-items: center;
   justify-content: flex-start;
   padding: 0px !important;
+  color: ${props => props.theme.colors.blue} !important;
 `

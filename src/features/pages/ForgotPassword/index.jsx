@@ -17,10 +17,7 @@ import { userModel } from './validation'
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('')
   const history = useHistory()
-  const onGotoLoginPage = useCallback(
-    () => history.push(Routers.SIGN_IN_PAGE),
-    []
-  )
+  const onGotoLoginPage = useCallback(() => history.push(Routers.LOGIN), [])
 
   const onChangeEmail = useCallback(v => setEmail(v), [email])
   const onSubmit = useCallback(() => {
@@ -47,6 +44,7 @@ const ForgotPasswordPage = () => {
           label={'Về trang đăng nhập'}
           icon={'feather-arrow-left'}
           onClick={onGotoLoginPage}
+          color='#000'
         />
       </FooterWrapper>
     </LayoutWrapper>
