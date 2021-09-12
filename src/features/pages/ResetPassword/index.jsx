@@ -46,7 +46,7 @@ const ResetPasswordPage = () => {
 
   return (
     <LayoutWrapper>
-      <Header title='BIDMA portal' subTitle='Mật khẩu mới' />
+      <Header subTitle='Mật khẩu mới' />
       <Form fluid model={userModel} onSubmit={onSubmit}>
         <InputGroup
           value={password}

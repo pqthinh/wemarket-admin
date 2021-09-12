@@ -83,13 +83,13 @@ const LoginPage = () => {
     [showPassword]
   )
   const onGotoForgotPassword = useCallback(
-    () => history.push(Routers.FORGOT_PASSWORD_PAGE),
+    () => history.push(Routers.FORGOT_PASSWORD),
     []
   )
 
   return (
     <LayoutWrapper>
-      <Header title='BIDMA portal' subTitle='Đăng nhập' />
+      <Header subTitle='Đăng nhập' />
       <Form fluid model={userModel} onSubmit={onSubmit}>
         <InputGroup
           value={data.email}

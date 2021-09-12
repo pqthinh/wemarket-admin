@@ -29,7 +29,7 @@ const ForgotPasswordPage = () => {
 
   return (
     <LayoutWrapper>
-      <Header title='BIDMA portal' subTitle='Lấy lại mật khẩu' />
+      <Header subTitle='Lấy lại mật khẩu' />
       <Form fluid model={userModel} onSubmit={onSubmit}>
         <Input
           value={email}
