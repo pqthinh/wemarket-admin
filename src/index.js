@@ -7,7 +7,7 @@ import App from './App'
 import './i18n'
 import reportWebVitals from './reportWebVitals'
 
-const AppWrapper = props => {
+const AppWrapper = ({ ...props }) => {
   return (
     <React.StrictMode>
       <RecoilRoot>

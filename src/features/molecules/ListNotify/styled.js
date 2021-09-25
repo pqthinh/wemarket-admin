@@ -19,7 +19,6 @@ export const WrapperCalendar = styled.div`
   }
 `
 export const WrapperContainer = styled.div`
-  min-width: 200px;
   padding: 5px;
   background: ${props => props.theme.colors.white};
   box-sizing: border-box;
@@ -27,11 +26,12 @@ export const WrapperContainer = styled.div`
   display: block;
   position: relative;
   height: 100%;
+  width: 100%;
 `
 export const GridItemContainer = styled(BaseItemGrid)`
   height: 100vh;
-  width: 100%;
   padding: 0;
+  min-width: 200px;
   border: 1px solid ${props => props.theme.colors.border};
   @media screen and (max-width: 480px) {
     height: calc(100vh - 90px);

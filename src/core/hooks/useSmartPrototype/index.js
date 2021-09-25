@@ -11,6 +11,7 @@ import localizedFormat from 'dayjs/plugin/localizedFormat'
 import minMax from 'dayjs/plugin/minMax'
 import utc from 'dayjs/plugin/utc'
 import React from 'react'
+import moment from 'moment'
 
 dayjs.extend(utc)
 dayjs.extend(advancedFormat)
@@ -68,6 +69,14 @@ const useSmartPrototype = () => {
 
     String.prototype.isDate = function () {
       return !isNaN(Date.parse(this.toString().replaceAll(' UTC', '').trim()))
+    }
+
+    String.prototype.timeAgo = function (lang = 'vi') {
+      try {
+        return moment(this.utcToLocalDate()).locale(lang).fromNow()
+      } catch (e) {
+        return ''
+      }
     }
 
     String.prototype.isAfter = function (another, format = 'DD/MM/YYYY') {

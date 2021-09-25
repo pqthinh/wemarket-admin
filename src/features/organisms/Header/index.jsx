@@ -36,7 +36,7 @@ const HeaderGroup = ({ countNotify, setCountNotify }) => {
 
         <Header>
           <Image source={IMAGES.LOGO.default} />
-          <TextLogo>BIDMA</TextLogo>
+          <TextLogo>WeMarket</TextLogo>
         </Header>
 
         <WrapperIcon right={20} onClick={() => onToggleNotify()}>

@@ -25,13 +25,13 @@ const ListNotification = ({ countNotify, setCountNotify }) => {
       {
         node: {
           id: 'QmFzZU5vZGUtMzk3',
-          title: 'Lịch hẹn đấu giá',
+          title: 'Tin đăng mới',
           message:
-            'Chúc mừng bạn vừa đặt thành công lịch đấu giá lúc 21:59 04/08/2021',
+            'Thành viên Phạm Văn A đẵ đăng tin rao bán lúc 21:59 04/08/2021',
           image_url: null,
           notification_type: 'owner',
           status: 'unread',
-          data: '{"id":"QXVjdGlvbkl0ZW1UeXBlLTI3OQ==","title":"Máy xúc","type":"AuctionItem","app_route":"biz/detail"}',
+          data: '{"id":"QXVjdGlvbkl0ZW1UeXBlLTI3OQ==","title":"Tin đăng mới","type":"product","app_route":"biz/detail"}',
           created_at: '2021-07-26 08:25:19 UTC',
           __typename: 'Notification'
         },
@@ -40,12 +40,27 @@ const ListNotification = ({ countNotify, setCountNotify }) => {
       {
         node: {
           id: 'QmFzZU5vZGUtMzk4',
-          title: 'Lịch hẹn đấu giá',
-          message: ' vừa đặt lịch hẹn đấu giá lúc 21:59 04/08/2021',
+          title: 'Thành viên mới',
+          message: 'Thành viên ABC vừa đăng ký tài khoản lúc 21:59 04/08/2021',
           image_url: null,
           notification_type: 'admin',
           status: 'unread',
-          data: '{"id":"QXVjdGlvbkl0ZW1UeXBlLTI3OQ==","title":"Máy xúc","type":"AuctionItem","app_route":"biz/detail"}',
+          data: '{"id":"QXVjdGlvbkl0ZW1UeXBlLTI3OQ==","title":"Đăng ký tài khoản","type":"user","app_route":"biz/detail"}',
+          created_at: '2021-07-26 08:25:19 UTC',
+          __typename: 'Notification'
+        },
+        __typename: 'NotificationsEdgeType'
+      },
+      {
+        node: {
+          id: 'QmFzZU5vZGUtMzk4',
+          title: 'Gia hạn bài viết',
+          message:
+            'Thành viên ABCD vừa gửi yêu cầu gia hạn tin đăng CEF lúc 21:59 04/08/2021',
+          image_url: null,
+          notification_type: 'admin',
+          status: 'read',
+          data: '{"id":"QXVjdGlvbkl0ZW1UeXBlLTI3OQ==","title":"Đăng ký tài khoản","type":"product","app_route":"biz/detail"}',
           created_at: '2021-07-26 08:25:19 UTC',
           __typename: 'Notification'
         },
