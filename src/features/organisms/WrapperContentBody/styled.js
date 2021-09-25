@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { BaseNav, BaseText } from 'atoms'
 
 export const Wrapper = styled(Container)`
-  height: 100%;
+  height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;

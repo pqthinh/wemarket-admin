@@ -14,9 +14,9 @@ export const Wrapper = styled(Container)`
 
 export const LayoutWrapper = styled(Container)`
   display: block;
-  max-width: calc(100% - 56px);
+  max-width: calc(100% - 256px);
   background-color: ${props => props.theme.colors.gray[1]};
-  height: 100%;
+  height: 100vh;
   @media screen and (max-width: 480px) {
     height: calc(100vh - 90px);
     max-width: 100%;
@@ -32,14 +32,6 @@ export const BodyWrapper = styled(Content)`
   position: relative;
   height: 100%;
   background: ${props => props.theme.colors.background};
-  .rs-picker-check-menu-group {
-    position: relative;
-    & ~ div {
-      position: relative;
-      height: 100px;
-      display: block;
-    }
-  }
 `
 export const FooterWrapper = styled(Footer)``
 export const SidebarWrapper = styled(Sidebar)``
@@ -76,6 +68,8 @@ export const WrapperIconClose = styled.div`
 `
 export const WrapperNotifyFixed = styled(Container)`
   height: 100vh;
-  width: 100%;
   max-width: 400px;
+  position: fixed;
+  right: 0;
+  z-index: 999;
 `

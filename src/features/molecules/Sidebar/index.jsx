@@ -64,7 +64,7 @@ const Sidebar = props => {
       <MenuHeader>
         <Header>
           <Image source={IMAGES.LOGO.default} />
-          <TextLogo>BIDMA</TextLogo>
+          <TextLogo>WeMarket</TextLogo>
         </Header>
       </MenuHeader>
     ) : null

@@ -1,29 +1,18 @@
 import { Header } from 'organisms'
 import React, { useState, useEffect, useCallback } from 'react'
-import { Animation } from 'rsuite'
 import {
   BodyWrapper,
   LayoutWrapper,
   ListNotifyWrapper,
   SidebarWrapper,
-  Wrapper,
-  WrapperNotifyFixed,
-  WrapperIcon,
-  WrapperIconClose,
-  Icon,
-  WrapperBadge
+  Wrapper
 } from './styled'
-const { Slide } = Animation
 import PropTypes from 'prop-types'
 
 const PrivateTemplate = ({ children, ...others }) => {
   const [showInMobile, setShowInMobile] = useState(false)
+  // xử lý đếm thông báo
   const [countNotify, setCountNotify] = useState(0)
-  const [toggle, setToggle] = useState(false)
-
-  const onToggleNotify = useCallback(() => {
-    setToggle(!toggle)
-  }, [toggle])
 
   const handleResize = useCallback(() => {
     setShowInMobile(window.innerWidth <= 480)
@@ -46,27 +35,10 @@ const PrivateTemplate = ({ children, ...others }) => {
         <BodyWrapper {...others}>{children}</BodyWrapper>
       </LayoutWrapper>
       {!showInMobile && (
-        <>
-          <WrapperIcon onClick={onToggleNotify}>
-            <Icon name={'feather-bell'} size={20} />
-            {countNotify > 0 && (
-              <WrapperBadge className={'count-notify'} content={countNotify} />
-            )}
-          </WrapperIcon>
-          {toggle && (
-            <Slide in={toggle} placement={'right'}>
-              <WrapperNotifyFixed>
-                <WrapperIconClose onClick={onToggleNotify}>
-                  <Icon name={'feather-x'} size={20} />
-                </WrapperIconClose>
-                <ListNotifyWrapper
-                  countNotify={countNotify}
-                  setCountNotify={setCountNotify}
-                />
-              </WrapperNotifyFixed>
-            </Slide>
-          )}
-        </>
+        <ListNotifyWrapper
+          countNotify={countNotify}
+          setCountNotify={setCountNotify}
+        />
       )}
     </Wrapper>
   )

@@ -43,6 +43,7 @@
     "jwt-encode": "^1.0.1",
     "less-loader": "^8.1.1",
     "mini-css-extract-plugin": "^1.5.0",
+    "moment": "^2.29.1",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
