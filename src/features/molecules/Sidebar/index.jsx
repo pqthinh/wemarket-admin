@@ -24,7 +24,7 @@ import {
   Button
 } from './styled'
 import { Whisper } from 'rsuite'
-import { withEmpty } from 'exp-value'
+import { withEmpty, withObject } from 'exp-value'
 
 const Sidebar = props => {
   const { ...others } = props
@@ -137,9 +137,9 @@ const Sidebar = props => {
           >
             <CardAvatar
               source={withEmpty('avatar_url', user) || IMAGES.AVATAR.default}
-              title={withEmpty('full_name', user)}
-              subTitle={withEmpty('role', user)}
-              alt={withEmpty('full_name', user)}
+              title={withEmpty('email', user)}
+              subTitle={withEmpty('role', user) || 'Admin'}
+              alt={withEmpty('name', user)}
             />
           </Whisper>
         </Footer>
@@ -172,7 +172,9 @@ const Sidebar = props => {
           {renderHeaderSidebar()}
           <MenuBody>
             {renderMenuSidebar()}
-            {renderFooter(JSON.parse(JSON.stringify(user)))}
+            {renderFooter(
+              withObject('data.user', JSON.parse(JSON.stringify(user)))
+            )}
           </MenuBody>
         </Menu>
       </WrapperContainer>

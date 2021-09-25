@@ -38,6 +38,7 @@ export const SidebarWrapper = styled(Sidebar)``
 export const ListNotifyWrapper = styled(ListNotify)`
   position: relative;
   width: 100%;
+  min-width: 200px;
 `
 export const WrapperBadge = styled(BaseBadge)`
   position: absolute;

@@ -12,6 +12,7 @@ const App = props => {
 
   const { isLoggedIn } = useToken()
   const { isLoading } = useLoading()
+  console.log(process.env)
 
   return (
     <ToastProvider autoDismiss autoDismissTimeout={6000} placement='top-right'>
