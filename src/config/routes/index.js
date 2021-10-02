@@ -1,6 +1,6 @@
 import { Loading } from 'atoms'
 import PropTypes from 'prop-types'
-import React, { lazy, Suspense, useMemo, useCallback } from 'react'
+import React, { lazy, Suspense, useMemo, useCallback, useEffect } from 'react'
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 import { PrivateTemplate, PublicTemplate } from 'templates'
 import { Routers, Constants } from 'utils'
@@ -10,6 +10,9 @@ const EmptyPage = lazy(() => import('pages/NotFoundPage'))
 const LoginPage = lazy(() => import('pages/LoginPage'))
 const ForgotPasswordPage = lazy(() => import('pages/ForgotPassword'))
 const ResetPasswordPage = lazy(() => import('pages/ResetPassword'))
+const ProfilePage = lazy(() => import('pages/Profile/ProfilePage'))
+const UpdateProfilePage = lazy(() => import('pages/Profile/ProfileEdit'))
+const ChangePasswordPage = lazy(() => import('pages/Profile/ChangePassword'))
 
 // private page
 const Dashboard = lazy(() => import('pages/DashboardPage'))
@@ -49,6 +52,11 @@ const Routes = ({ isLoggedIn, ...rest }) => {
     }
   }, [location.pathname, isLoggedIn])
 
+  useEffect(() => {
+    if (isPrivateRouter && !isLoggedIn) history.push('/login')
+    if (isPublicRouter && isLoggedIn) history.push('/')
+  }, [location.pathname, isLoggedIn])
+
   const _renderPrivateSuperAdminRoute = useCallback(() => {
     return (
       <PrivateTemplate>
@@ -58,6 +66,30 @@ const Routes = ({ isLoggedIn, ...rest }) => {
           path={'/'}
           render={props => {
             return <Dashboard {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/profile'}
+          render={props => {
+            return <ProfilePage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/profile/update'}
+          render={props => {
+            return <UpdateProfilePage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/change-password'}
+          render={props => {
+            return <ChangePasswordPage {...rest} {...props} />
           }}
         />
       </PrivateTemplate>

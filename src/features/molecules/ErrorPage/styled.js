@@ -10,8 +10,10 @@ export const Wrapper = styled.div`
 `
 
 export const Image = styled(BaseImage)`
-  width: 400px;
-  height: auto;
+  max-width: 400px;
+  box-sizing: border-box;
+  object-fit: contain
+  width: 100%;
 `
 
 export const Description = styled(BaseText)`
