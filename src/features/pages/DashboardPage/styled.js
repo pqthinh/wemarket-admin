@@ -11,6 +11,8 @@ export const Text = styled(BaseText)`
   color: ${props => props.theme.colors.gray[1]};
 `
 export const Image = styled(BaseImage)`
-  max-height: 400px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
   object-fit: contain;
 `

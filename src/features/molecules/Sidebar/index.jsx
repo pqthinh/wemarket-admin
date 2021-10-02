@@ -1,9 +1,12 @@
 import { IMAGES } from 'assets'
+import { withArray, withEmpty } from 'exp-value'
+import { useStorage, useToken, useUser } from 'hooks'
 import React, { useCallback, useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
+import { Whisper } from 'rsuite'
 import { Constants, Routers } from 'utils'
-import { useUser, useStorage, useToken } from 'hooks'
 import {
+  Button,
   CardAvatar,
   DropdownItem,
   DropdownWrapper,
@@ -14,17 +17,14 @@ import {
   Menu,
   MenuBody,
   MenuHeader,
+  MenuIcon,
   Navigator,
   NavItem,
+  Text,
   TextLogo,
   WrapperContainer,
-  MenuIcon,
-  WrapperPopover,
-  Text,
-  Button
+  WrapperPopover
 } from './styled'
-import { Whisper } from 'rsuite'
-import { withEmpty, withObject } from 'exp-value'
 
 const Sidebar = props => {
   const { ...others } = props
@@ -50,7 +50,7 @@ const Sidebar = props => {
   }, [])
 
   const goProfilePage = useCallback(() => {
-    history.push(Routers.ADMIN[0])
+    history.push(Routers.PROFILE)
   }, [])
 
   const handleResize = useCallback(() => {
@@ -137,7 +137,7 @@ const Sidebar = props => {
           >
             <CardAvatar
               source={withEmpty('avatar_url', user) || IMAGES.AVATAR.default}
-              title={withEmpty('email', user)}
+              title={withArray('email.split("@")', user)[0]}
               subTitle={withEmpty('role', user) || 'Admin'}
               alt={withEmpty('name', user)}
             />
@@ -172,9 +172,7 @@ const Sidebar = props => {
           {renderHeaderSidebar()}
           <MenuBody>
             {renderMenuSidebar()}
-            {renderFooter(
-              withObject('data.user', JSON.parse(JSON.stringify(user)))
-            )}
+            {renderFooter(JSON.parse(JSON.stringify(user)))}
           </MenuBody>
         </Menu>
       </WrapperContainer>
