@@ -13,7 +13,10 @@ const Routers = {
     '/post/video',
     '/product',
     '/review'
-  ]
+  ],
+  PROFILE: '/profile',
+  CHANGE_PASSWORD: '/change-password',
+  UPDATE_PROFILE: '/profile/update'
 }
 
 export default Routers

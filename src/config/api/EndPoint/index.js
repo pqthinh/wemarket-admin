@@ -4,7 +4,8 @@ const EndPoint = {
   RESET_PASSWORD: 'auth/resetPassword',
   STAFFS: 'staffs',
   ACCOUNTS: 'accounts',
-  IMAGE: 'image'
+  IMAGE: 'image',
+  CHANGE_PASSWORD: 'change-password'
 }
 
 export default EndPoint

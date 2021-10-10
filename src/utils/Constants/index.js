@@ -1,5 +1,10 @@
 const Constant = {
-  privateRouter: [{ URL: '/', name: 'Dashboard' }],
+  privateRouter: [
+    { URL: '/', name: 'Dashboard' },
+    { URL: '/profile', name: 'Profile' },
+    { URL: '/profile/update', name: 'Update profile' },
+    { URL: '/change-password', name: 'Change password' }
+  ],
   publicRouter: [
     { URL: '/', name: '' },
     { URL: '/login', name: 'Login' },
@@ -20,7 +25,8 @@ const Constant = {
         { title: 'Tin tức', link: '/post/news' },
         { title: 'Video', link: '/post/video' }
       ]
-    }
+    },
+    { title: 'Thông tin cá nhân', link: '/profile' }
   ],
   navigators: [
     { key: '1', icon: 'feather-bar-chart-2', label: 'Tổng quan' },
