@@ -3,7 +3,9 @@ const Constant = {
     { URL: '/', name: 'Dashboard' },
     { URL: '/profile', name: 'Profile' },
     { URL: '/profile/update', name: 'Update profile' },
-    { URL: '/change-password', name: 'Change password' }
+    { URL: '/change-password', name: 'Change password' },
+    { URL: '/products', name: 'Product management' },
+    { URL: '/users', name: 'User management' }
   ],
   publicRouter: [
     { URL: '/', name: '' },
@@ -15,9 +17,9 @@ const Constant = {
   contentPage: [
     {},
     { title: 'Tổng quan', link: '/home' },
-    { title: 'Quản lý khách hàng', link: '/schedule' },
-    { title: 'Quản lý sản phẩm', link: '/customer' },
-    { title: 'Quản lý đánh giá', link: '/review' },
+    { title: 'Quản lý khách hàng', link: '/users' },
+    { title: 'Quản lý sản phẩm', link: '/products' },
+    { title: 'Quản lý đánh giá', link: '/reviews' },
     {
       title: 'Quản lý bài viết',
       link: '/post',
@@ -31,8 +33,8 @@ const Constant = {
   navigators: [
     { key: '1', icon: 'feather-bar-chart-2', label: 'Tổng quan' },
     { key: '2', icon: 'feather-user', label: 'Quản lý khách hàng' },
-    { key: '13', icon: 'feather-airplay', label: 'Quản lý sản phẩm' },
-    { key: '14', icon: 'feather-star', label: 'Quản lý đánh giá' },
+    { key: '3', icon: 'feather-airplay', label: 'Quản lý sản phẩm' },
+    { key: '4', icon: 'feather-star', label: 'Quản lý đánh giá' },
     {
       key: '5',
       icon: 'feather-film',
