@@ -7,7 +7,8 @@ const Routers = {
   NOT_FOUND: '/not-found',
   NAV_LINK: [
     '/',
-    '/customer',
+    '/users',
+    '/products',
     '/post',
     '/post/news',
     '/post/video',

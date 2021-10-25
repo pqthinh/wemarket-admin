@@ -10,12 +10,14 @@ const EmptyPage = lazy(() => import('pages/NotFoundPage'))
 const LoginPage = lazy(() => import('pages/LoginPage'))
 const ForgotPasswordPage = lazy(() => import('pages/ForgotPassword'))
 const ResetPasswordPage = lazy(() => import('pages/ResetPassword'))
-const ProfilePage = lazy(() => import('pages/Profile/ProfilePage'))
-const UpdateProfilePage = lazy(() => import('pages/Profile/ProfileEdit'))
 const ChangePasswordPage = lazy(() => import('pages/Profile/ChangePassword'))
 
 // private page
 const Dashboard = lazy(() => import('pages/DashboardPage'))
+const ProductPage = lazy(() => import('pages/ProductPage'))
+const UserPage = lazy(() => import('pages/UserPage'))
+const ProfilePage = lazy(() => import('pages/Profile/ProfilePage'))
+const UpdateProfilePage = lazy(() => import('pages/Profile/ProfileEdit'))
 
 const Routes = ({ isLoggedIn, ...rest }) => {
   const location = useLocation()
@@ -90,6 +92,22 @@ const Routes = ({ isLoggedIn, ...rest }) => {
           path={'/change-password'}
           render={props => {
             return <ChangePasswordPage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/products'}
+          render={props => {
+            return <ProductPage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/users'}
+          render={props => {
+            return <UserPage {...rest} {...props} />
           }}
         />
       </PrivateTemplate>
