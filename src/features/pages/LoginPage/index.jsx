@@ -35,10 +35,8 @@ const LoginPage = () => {
   )
 
   const onSubmit = useCallback(() => {
-    console.log(data)
     async function execute(data) {
       const result = await onPostExecute(EndPoint.LOGIN, data, false)
-      console.log(result, 'login')
       if (result) {
         await saveToken(withEmpty('data.token', result))
         saveUser(result)

@@ -13,7 +13,6 @@ import {
   Icon,
   Link,
   Modal,
-  TextNoData,
   TextNotification,
   Toggle,
   Toolbar,
@@ -164,12 +163,8 @@ const TableCustomerGroup = ({
     if (page) setPage(eval(page))
   }, [location.pathname])
 
-  const _renderEmpty = useCallback(() => {
-    return <TextNoData>Không có dữ liệu</TextNoData>
-  }, [])
-
   const _renderTable = useCallback(
-    expData => {
+    (expData, page) => {
       const data = expData.filter((v, i) => {
         const start = limit * (page - 1)
         const end = start + limit
@@ -182,8 +177,7 @@ const TableCustomerGroup = ({
           setReload={setReload}
           wordWrap
           id='table'
-          height={window.innerHeight - 200}
-          renderEmpty={_renderEmpty}
+          height={window.innerHeight - 210}
           {...others}
         >
           <Column width={40} align='center'>
@@ -251,7 +245,7 @@ const TableCustomerGroup = ({
 
   return (
     <Wrapper {...others}>
-      {_renderTable(expData)}
+      {_renderTable(expData, page)}
       <BasePagination
         onChangePage={e => onLoadPage(e)}
         total={totalRecord}
