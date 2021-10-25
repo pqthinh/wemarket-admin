@@ -1,13 +1,14 @@
-import { useDebounce } from 'hooks'
+import { useDebounce, useRequestManager } from 'hooks'
 import { TopBody } from 'molecules'
 import { TableUserGroup, WrapperContentBody } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
-import { data } from './fake'
+import { EndPoint } from 'config/api'
 
 const UserPage = ({ ...others }) => {
   const [listUser, setListUser] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
+  const { onGetExecute } = useRequestManager()
 
   const searchInput = useDebounce(search, 3000)
 
@@ -15,9 +16,15 @@ const UserPage = ({ ...others }) => {
   const [reload, setReload] = useState(true)
 
   useEffect(() => {
-    setListUser(data)
-    setTotalRecord(data.length)
-  }, [data])
+    async function execute() {
+      const result = await onGetExecute(EndPoint.GET_LIST_USER)
+      if (result) {
+        setListUser(result)
+        setTotalRecord(result.length)
+      }
+    }
+    execute()
+  }, [])
 
   const TopTab = React.useCallback(() => {
     return <TopBody search={search} setSearch={setSearch} status={1} />
@@ -35,7 +42,7 @@ const UserPage = ({ ...others }) => {
         limit={10}
       />
     )
-  }, [listUser, page, reload])
+  }, [listUser, page, reload, totalRecord])
 
   const getListUser = useCallback(() => {
     console.log(search, page)
