@@ -108,7 +108,7 @@
   },
   "proxy": {
     "*": {
-      "target": "http://localhost:4000"
+      "target": "https://wemarket-api.herokuapp.com"
     }
   }
 }

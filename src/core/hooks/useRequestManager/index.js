@@ -28,7 +28,7 @@ const useRequestManager = () => {
       const execute = async () => {
         setLoading(true)
         try {
-          const { data } = await axios.get(url, { headers, ...entity })
+          const { data } = await instance.get(url, { headers, ...entity })
           setLoading(false)
           return data
         } catch (error) {
