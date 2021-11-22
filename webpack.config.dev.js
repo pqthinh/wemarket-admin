@@ -2,7 +2,7 @@
 
 const webpackMerge = require('webpack-merge')
 const baseConfig = require('./webpack.config.base')
-const publicPath = '/'
+const publicPath = '/build'
 const path = require('path')
 const webpack = require('webpack')
 
