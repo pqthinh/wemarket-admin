@@ -4,6 +4,7 @@ webpack.*
 .vscode/
 server.*
 dist/*
+build/*
 public/*
 production.firebase-messaging-sw.js
 staging.firebase-messaging-sw.js

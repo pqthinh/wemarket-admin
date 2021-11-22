@@ -13,7 +13,7 @@ const ResetPasswordPage = lazy(() => import('pages/ResetPassword'))
 const ChangePasswordPage = lazy(() => import('pages/Profile/ChangePassword'))
 
 // private page
-const Dashboard = lazy(() => import('pages/DashboardPage'))
+const Dashboard = lazy(() => import('pages/dashboard'))
 const ProductPage = lazy(() => import('pages/ProductPage'))
 const UserPage = lazy(() => import('pages/UserPage'))
 const ProfilePage = lazy(() => import('pages/Profile/ProfilePage'))

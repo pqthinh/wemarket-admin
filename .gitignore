@@ -33,3 +33,9 @@ dist/
         "rangav.vscode-thunder-client"
     ]
 }
+build/
+{
+    "recommendations": [
+        "rangav.vscode-thunder-client"
+    ]
+}
