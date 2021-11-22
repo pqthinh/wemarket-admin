@@ -78,7 +78,7 @@
   },
   "scripts": {
     "start": "webpack serve --config ./webpack.config.dev.js --inline --progress --mode development",
-    "build": "rm -rf dist && webpack --mode=production && cp -r public/* dist",
+    "build": "rm -rf build && webpack --mode=production && cp -r public/* build",
     "server": "node ./server.js",
     "lint": "eslint src/**/*.js src/**/*.jsx --ignore-pattern node_modules/",
     "watch": "webpack --watch",
