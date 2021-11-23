@@ -20,6 +20,7 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-preset-rsuite": "^4.0.1",
+    "chartist": "^0.11.4",
     "compression-webpack-plugin": "3.1.0",
     "cors": "^2.8.5",
     "css-loader": "^5.2.4",
@@ -29,8 +30,10 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "exp-value": "^1.0.4",
     "express": "^4.17.1",
+    "express-jwt": "^6.1.0",
     "file-loader": "^6.2.0",
-    "firebase": "^8.7.1",
+    "firebase": "^7.9.0",
+    "firebase-tools": "^9.11.0",
     "highcharts": "^9.1.2",
     "highcharts-react-official": "^3.0.0",
     "history": "^5.0.0",
@@ -48,6 +51,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
+    "react-chartist": "^0.14.4",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
     "react-hot-loader": "^4.13.0",
@@ -74,7 +78,7 @@
   },
   "scripts": {
     "start": "webpack serve --config ./webpack.config.dev.js --inline --progress --mode development",
-    "build": "rm -rf dist && webpack --mode=production && cp -r public/* dist",
+    "build": "rm -rf build && webpack --mode=production && cp -r public/* build",
     "server": "node ./server.js",
     "lint": "eslint src/**/*.js src/**/*.jsx --ignore-pattern node_modules/",
     "watch": "webpack --watch",
@@ -102,12 +106,13 @@
   },
   "devDependencies": {
     "eslint": "^7.32.0",
+    "less": "^4.1.2",
     "prettier": "^2.4.0",
     "webpack-dev-server": "^3.11.2"
   },
   "proxy": {
     "*": {
-      "target": "http://localhost:4000"
+      "target": "https://wemarket-api.herokuapp.com"
     }
   }
 }

@@ -11,7 +11,6 @@ import {
   Header,
   Icon,
   Modal,
-  TextNoData,
   TextNotification,
   Toggle,
   Toolbar,
@@ -105,8 +104,6 @@ const TableProductGroup = ({
   totalRecord,
   page,
   setPage,
-  loading,
-  setReload,
   limit,
   ...others
 }) => {
@@ -127,13 +124,9 @@ const TableProductGroup = ({
     if (page) setPage(eval(page))
   }, [location.pathname])
 
-  const _renderEmpty = useCallback(() => {
-    return <TextNoData>Không có dữ liệu</TextNoData>
-  }, [])
-
   const _renderTable = useCallback(
-    expData => {
-      const data = expData.filter((v, i) => {
+    (expData, page) => {
+      const data = expData.filter((_, i) => {
         const start = limit * (page - 1)
         const end = start + limit
         return i >= start && i < end
@@ -141,12 +134,9 @@ const TableProductGroup = ({
       return (
         <Table
           data={data}
-          loading={loading}
-          setReload={setReload}
           wordWrap
           id='table-product'
-          height={window.innerHeight - 200}
-          renderEmpty={_renderEmpty}
+          height={window.innerHeight - 220}
           {...others}
         >
           <Column width={150} align='center'>
@@ -197,28 +187,23 @@ const TableProductGroup = ({
 
           <Column width={100}>
             <Header>Kích hoạt</Header>
-            <ToggleCell dataKey='status' setReload={setReload} />
+            <ToggleCell dataKey='status' />
           </Column>
           <Column width={120}>
             <Header>Hành động</Header>
-            <ActionCell
-              dataKey='id'
-              loading={loading ? 1 : 0}
-              setReload={setReload}
-              {...others}
-            />
+            <ActionCell dataKey='id' {...others} />
           </Column>
         </Table>
       )
     },
-    [loading, window.innerHeight]
+    [window.innerHeight]
   )
 
   useEffect(onLoadParamPage, [location.pathname])
 
   return (
     <Wrapper {...others}>
-      {_renderTable(expData)}
+      {_renderTable(expData, page)}
       <BasePagination
         onChangePage={e => onLoadPage(e)}
         total={totalRecord}
