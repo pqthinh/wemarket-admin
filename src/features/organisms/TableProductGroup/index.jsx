@@ -105,6 +105,8 @@ const TableProductGroup = ({
   page,
   setPage,
   limit,
+  sort,
+  setSort,
   ...others
 }) => {
   const history = useHistory()
@@ -119,18 +121,20 @@ const TableProductGroup = ({
     [page]
   )
 
+  const onSort = useCallback(
+    sortType => {
+      setSort({ key: sortType, type: sort.type == 'asc' ? 'desc' : 'asc' })
+    },
+    [sort, setSort]
+  )
+
   const onLoadParamPage = useCallback(() => {
     const page = new URLSearchParams(search).get('page')
     if (page) setPage(eval(page))
   }, [location.pathname])
 
   const _renderTable = useCallback(
-    (expData, page) => {
-      const data = expData.filter((_, i) => {
-        const start = limit * (page - 1)
-        const end = start + limit
-        return i >= start && i < end
-      })
+    data => {
       return (
         <Table
           data={data}
@@ -141,47 +145,65 @@ const TableProductGroup = ({
         >
           <Column width={150} align='center'>
             <Header>Image</Header>
-            <WrapperImageCell dataKey='imgs' />
+            <WrapperImageCell dataKey='image' />
           </Column>
-          <Column width={100} sortable>
+          <Column width={200}>
             <Header>Tên sp</Header>
-            <TextCell dataKey='title' />
+            <TextCell dataKey='name' />
           </Column>
-          <Column width={120} sortable>
+          <Column width={250}>
+            <Header>Mô tả</Header>
+            <TextCell dataKey='description' />
+          </Column>
+          <Column width={140} sortable>
+            <Header>
+              <span onClick={() => onSort('categoryName')}>Danh mục SP</span>
+            </Header>
+            <TextCell dataKey='categoryName' />
+          </Column>
+          <Column width={140}>
             <Header>Tên user</Header>
-            <TextCell dataKey='user_name' />
+            <TextCell dataKey='username' />
           </Column>
-          <Column width={100} sortable>
+          <Column width={140}>
             <Header>Email user</Header>
             <TextCell dataKey='email' />
           </Column>
 
           <Column width={100} sortable>
-            <Header>Giá</Header>
+            <Header>
+              <span onClick={() => onSort('price')}>Giá</span>
+            </Header>
             <TextCell dataKey='price' />
           </Column>
-          <Column width={100} sortable>
-            <Header>Số lượng</Header>
-            <TextCell dataKey='quality' />
+          <Column width={60} sortable>
+            <Header>
+              <span onClick={() => onSort('quantity')}>SL</span>
+            </Header>
+            <TextCell dataKey='quantity' />
           </Column>
-
-          <Column width={200} sortable>
-            <Header>Mô tả</Header>
-            <TextCell dataKey='product_description' />
+          <Column width={80} sortable>
+            <Header>
+              <span onClick={() => onSort('view')}>View </span>
+            </Header>
+            <TextCell dataKey='view' />
           </Column>
-
-          <Column width={140} sortable>
-            <Header>Danh mục SP</Header>
-            <TextCell dataKey='category' />
+          <Column width={60} sortable>
+            <Header>
+              <span onClick={() => onSort('like_num')}>Like</span>
+            </Header>
+            <TextCell dataKey='like_num' />
           </Column>
 
           <Column width={150}>
             <Header>Địa điểm</Header>
-            <TextCell dataKey='place_name' />
+            <TextCell dataKey='address' />
           </Column>
 
-          <Column width={150}>
-            <Header>Ngày đăng</Header>
+          <Column width={150} sortable>
+            <Header>
+              <span onClick={() => onSort('createdAt')}>Ngày đăng</span>
+            </Header>
             <TextCell dataKey='createdAt' />
           </Column>
 
@@ -196,19 +218,19 @@ const TableProductGroup = ({
         </Table>
       )
     },
-    [window.innerHeight]
+    [window.innerHeight, sort]
   )
 
   useEffect(onLoadParamPage, [location.pathname])
 
   return (
     <Wrapper {...others}>
-      {_renderTable(expData, page)}
+      {_renderTable(expData)}
       <BasePagination
         onChangePage={e => onLoadPage(e)}
         total={totalRecord}
         activePage={page}
-        limit={10}
+        limit={limit}
       />
     </Wrapper>
   )
@@ -229,7 +251,9 @@ TableProductGroup.propTypes = {
   setPage: PropTypes.func,
   loading: PropTypes.any,
   setReload: PropTypes.func,
-  limit: PropTypes.number
+  limit: PropTypes.number,
+  setSort: PropTypes.func,
+  sort: PropTypes.any
 }
 ToggleCell.propTypes = {
   rowData: PropTypes.object,

@@ -21,13 +21,13 @@ import { customerModel } from './validation'
 
 const FormCustomer = ({ customer, type, ...others }) => {
   const [data, setData] = useState({
-    firstName: '',
-    lastName: '',
+    avatar: '',
+    username: '',
     phone: '',
     email: '',
-    ref: '',
-    avatar: '',
-    id: ''
+    birthday: '',
+    address: '',
+    uid: ''
   })
   const [file, setFile] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -36,7 +36,7 @@ const FormCustomer = ({ customer, type, ...others }) => {
   const contentForm = useMemo(() => {
     if (type == 'add') {
       return {
-        title: 'Thêm mới khách hàng',
+        title: 'Thêm mới thành viên',
         titleButton: 'Thêm mới'
       }
     }
@@ -117,20 +117,11 @@ const FormCustomer = ({ customer, type, ...others }) => {
           </WrapperAvatar>
 
           <InputGroup
-            value={withEmpty('firstName', data)}
-            label={'Tên'}
-            onChange={value => _handleChangeCustomer('firstName', value)}
-            placeholder={'Tên'}
-            name={'firstName'}
-            leftIcon={<Icon name={'feather-user'} />}
-            require
-          />
-          <InputGroup
-            value={withEmpty('lastName', data)}
-            label={'Họ và tên đệm'}
-            onChange={value => _handleChangeCustomer('lastName', value)}
-            placeholder={'Họ và tên đệm'}
-            name={'lastName'}
+            value={withEmpty('username', data)}
+            label={'Tên thành viên'}
+            onChange={value => _handleChangeCustomer('username', value)}
+            placeholder={'Tên thành viên'}
+            name={'username'}
             leftIcon={<Icon name={'feather-user'} />}
             require
           />
@@ -155,11 +146,21 @@ const FormCustomer = ({ customer, type, ...others }) => {
           />
 
           <InputGroup
-            value={withEmpty('ref', data)}
-            label={'Người giới thiệu'}
-            onChange={value => _handleChangeCustomer('ref', value)}
-            placeholder={'Người giới thiệu'}
-            name={'ref'}
+            value={withEmpty('address', data)}
+            label={'Địa chỉ'}
+            onChange={value => _handleChangeCustomer('address', value)}
+            placeholder={'Địa chỉ'}
+            name={'address'}
+            leftIcon={<Icon name={'feather-mail'} />}
+            require
+          />
+
+          <InputGroup
+            value={withEmpty('birthday', data)}
+            label={'Sinh nhật'}
+            onChange={value => _handleChangeCustomer('birthday', value)}
+            placeholder={'Sinh nhật'}
+            name={'birthday'}
             leftIcon={<Icon name={'feather-award'} />}
           />
 
@@ -174,13 +175,13 @@ const FormCustomer = ({ customer, type, ...others }) => {
   useEffect(() => {
     if (!customer) return
     const expData = {
-      firstName: withNull('first_name', customer),
-      lastName: withNull('last_name', customer),
+      avatar: withNull('avatar', customer),
+      username: withNull('username', customer),
       phone: withNull('phone', customer),
       email: withNull('email', customer),
-      ref: withNull('ref_id', customer),
-      avatar: withNull('avatar_url', customer),
-      id: withNull('id', customer)
+      birthday: withNull('birthday', customer),
+      address: withNull('address', customer),
+      uid: withNull('uid', customer)
     }
     setData(expData)
   }, [customer])

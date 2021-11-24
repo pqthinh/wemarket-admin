@@ -59,6 +59,7 @@ const useRequestManager = () => {
           setStatus(withNull('response.status', error))
           setLoading(false)
           showError(withNull('response.data.message', error))
+          clearToken()
         }
       }
       return execute()

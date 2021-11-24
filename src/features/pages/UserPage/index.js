@@ -8,23 +8,12 @@ const UserPage = ({ ...others }) => {
   const [listUser, setListUser] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const { onGetExecute } = useRequestManager()
+  const { onPostExecute } = useRequestManager()
 
-  const searchInput = useDebounce(search, 3000)
+  const searchInput = useDebounce(search, 5000)
 
   const [totalRecord, setTotalRecord] = useState(0)
   const [reload, setReload] = useState(true)
-
-  useEffect(() => {
-    async function execute() {
-      const result = await onGetExecute(EndPoint.GET_LIST_USER)
-      if (result) {
-        setListUser(result)
-        setTotalRecord(result.length)
-      }
-    }
-    execute()
-  }, [])
 
   const TopTab = React.useCallback(() => {
     return <TopBody search={search} setSearch={setSearch} status={1} />
@@ -45,8 +34,18 @@ const UserPage = ({ ...others }) => {
   }, [listUser, page, reload, totalRecord])
 
   const getListUser = useCallback(() => {
-    console.log(search, page)
-  }, [searchInput, page])
+    async function execute(search, page) {
+      const result = await onPostExecute(EndPoint.GET_LIST_USER, {
+        query: search,
+        offset: page
+      })
+      if (result) {
+        setListUser(result.result)
+        setTotalRecord(result.total)
+      }
+    }
+    execute(searchInput, page - 1)
+  }, [searchInput, page, reload])
 
   useEffect(() => {
     if (reload) {
@@ -56,7 +55,7 @@ const UserPage = ({ ...others }) => {
   }, [reload])
 
   useEffect(() => {
-    getListUser()
+    if (!reload) getListUser()
   }, [searchInput, page])
 
   return (

@@ -2,8 +2,7 @@ import { Schema } from 'rsuite'
 const { StringType } = Schema.Types
 
 export const customerModel = Schema.Model({
-  firstName: StringType().isRequired('Chưa nhập trường tên'),
-  lastName: StringType().isRequired('Chưa nhập trường họ và tên đệm'),
+  username: StringType().isRequired('Chưa nhập trường họ tên'),
   phone: StringType().isRequired('Chưa nhập SĐT'),
   email: StringType()
     .isRequired('Chưa nhập email')
