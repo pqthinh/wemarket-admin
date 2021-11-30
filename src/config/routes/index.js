@@ -18,6 +18,7 @@ const Dashboard = lazy(() => import('pages/dashboard'))
 const ProductPage = lazy(() => import('pages/ProductPage'))
 const UserPage = lazy(() => import('pages/UserPage'))
 const BannerPage = lazy(() => import('pages/BannerPage'))
+const CommentPage = lazy(() => import('pages/CommentPage'))
 const ProfilePage = lazy(() => import('pages/Profile/ProfilePage'))
 const UpdateProfilePage = lazy(() => import('pages/Profile/ProfileEdit'))
 
@@ -118,6 +119,14 @@ const Routes = ({ isLoggedIn, ...rest }) => {
           path={'/banners'}
           render={props => {
             return <BannerPage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/comments'}
+          render={props => {
+            return <CommentPage {...rest} {...props} />
           }}
         />
       </PrivateTemplate>

@@ -11,6 +11,7 @@ const Routers = {
     '/products',
     '/post',
     '/banners',
+    '/comments',
     '/post/news',
     '/post/video',
     '/product',
