@@ -19,6 +19,7 @@ const ProductPage = lazy(() => import('pages/ProductPage'))
 const UserPage = lazy(() => import('pages/UserPage'))
 const BannerPage = lazy(() => import('pages/BannerPage'))
 const CommentPage = lazy(() => import('pages/CommentPage'))
+const CategoryPage = lazy(() => import('pages/CategoryPage'))
 const ProfilePage = lazy(() => import('pages/Profile/ProfilePage'))
 const UpdateProfilePage = lazy(() => import('pages/Profile/ProfileEdit'))
 
@@ -127,6 +128,14 @@ const Routes = ({ isLoggedIn, ...rest }) => {
           path={'/comments'}
           render={props => {
             return <CommentPage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/categorys'}
+          render={props => {
+            return <CategoryPage {...rest} {...props} />
           }}
         />
       </PrivateTemplate>

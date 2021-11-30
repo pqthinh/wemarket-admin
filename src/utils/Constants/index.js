@@ -24,8 +24,7 @@ const Constant = {
     { title: 'Quản lý comment', link: '/comments' },
     {
       title: 'Quản lý danh mục',
-      link: '/post',
-      
+      link: '/categorys'    
     },
     { title: 'Thông tin cá nhân', link: '/profile' }
   ],
@@ -35,12 +34,11 @@ const Constant = {
     { key: '3', icon: 'feather-airplay', label: 'Quản lý sản phẩm' },
     { key: '4', icon: 'feather-star', label: 'Quản lý đánh giá' },
     { key: '5', icon: 'feather-user', label: 'Quản lý banner' },
-    { key: '6', icon: 'feather-user', label: 'Quản lý banner' },
+    { key: '6', icon: 'feather-user', label: 'Quản lý comment' },
     {
       key: '7',
       icon: 'feather-film',
-      label: 'Quản lý danh mục',
-      
+      label: 'Quản lý danh mục'
     }
   ]
 }
