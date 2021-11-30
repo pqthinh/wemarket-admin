@@ -1,14 +1,16 @@
 import { useDebounce, useRequestManager } from 'hooks'
 import { TopBody } from 'molecules'
-import { TableUserGroup, WrapperContentBody } from 'organisms'
+import { WrapperContentBody, TableBanner } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
 
 const BannerPage = ({ ...others }) => {
-  const [listUser, setListUser] = useState([])
+  // ctrl + F2 | ctrl + f 
+  const [listBanner, setListBanner] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const { onPostExecute } = useRequestManager()
+  // hàm này custom lại axios 
+  const { onGetExecute } = useRequestManager()
 
   const searchInput = useDebounce(search, 5000)
 
@@ -21,8 +23,8 @@ const BannerPage = ({ ...others }) => {
 
   const _renderTableProduct = useCallback(() => {
     return (
-      <TableUserGroup
-        expData={listUser}
+      <TableBanner
+        expData={listBanner}
         page={page}
         setPage={setPage}
         totalRecord={totalRecord}
@@ -31,16 +33,16 @@ const BannerPage = ({ ...others }) => {
         limit={10}
       />
     )
-  }, [listUser, page, reload, totalRecord])
+  }, [listBanner, page, reload, totalRecord])
 
-  const getListUser = useCallback(() => {
+  const getListBanner = useCallback(() => {
     async function execute(search, page) {
-      const result = await onPostExecute(EndPoint.GET_LIST_USER, {
+      const result = await onGetExecute(EndPoint.GET_LIST_BANNER, {
         query: search,
         offset: page
       })
       if (result) {
-        setListUser(result.result)
+        setListBanner(result.result)
         setTotalRecord(result.total)
       }
     }
@@ -49,19 +51,19 @@ const BannerPage = ({ ...others }) => {
 
   useEffect(() => {
     if (reload) {
-      getListUser()
+      getListBanner()
       setReload(false)
     }
   }, [reload])
 
   useEffect(() => {
-    if (!reload) getListUser()
+    if (!reload) getListBanner()
   }, [searchInput, page])
 
   return (
     <WrapperContentBody
       top={TopTab()}
-      contentBody={'Quản lý người dùng'}
+      contentBody={'Quản lý banner'}
       {...others}
     >
       {_renderTableProduct()}

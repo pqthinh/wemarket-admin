@@ -18,7 +18,8 @@ import {
   Toolbar,
   Wrapper,
   WrapperIcon,
-  WrapperIconButton
+  WrapperIconButton,
+  WrapperImageCell
 } from './styled'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
@@ -181,38 +182,13 @@ const TableBanner = ({
             <CheckCell dataKey='id' onChange={onClickCheckbox} />
           </Column>
           <Column width={60} align='center'>
-            <Header>Avatar</Header>
-            <ImageCell dataKey='avatar' />
+            <Header>ID</Header>
+            <TextCell dataKey='id' />
           </Column>
 
-          <Column width={160} sortable>
-            <Header>{'Họ & tên'}</Header>
-            <TextCell dataKey='username' />
-          </Column>
-
-          <Column width={120}>
-            <Header>Số điện thoại</Header>
-            <Cell>
-              {rowData => (
-                <Link href={`tel:${rowData.phone}`}>{rowData.phone}</Link>
-              )}
-            </Cell>
-          </Column>
-
-          <Column width={200}>
-            <Header>Email</Header>
-            <Cell>
-              {rowData => (
-                <Link href={`mailto:${rowData.email}`}>{rowData.email}</Link>
-              )}
-            </Cell>
-          </Column>
-
-          <Column width={120}>
-            <Header>Đăng nhập lúc</Header>
-            <Cell>
-              {rowData => <Link href={``}>{rowData.last_login}</Link>}
-            </Cell>
+          <Column width={150} align='center'>
+            <Header>Image URL</Header>
+            <WrapperImageCell dataKey='image' />
           </Column>
 
           <Column width={100}>

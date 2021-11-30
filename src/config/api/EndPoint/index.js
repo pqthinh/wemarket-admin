@@ -7,7 +7,8 @@ const EndPoint = {
   IMAGE: 'image',
   CHANGE_PASSWORD: 'change-password',
   GET_LIST_PRODUCT: 'admin/product/filter',
-  GET_LIST_USER: 'admin/user'
+  GET_LIST_USER: 'admin/user',
+  GET_LIST_BANNER: 'admin/banner/list'
 }
 
 export default EndPoint
