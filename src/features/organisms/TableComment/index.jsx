@@ -18,7 +18,8 @@ import {
   Toolbar,
   Wrapper,
   WrapperIcon,
-  WrapperIconButton
+  WrapperIconButton,
+  WrapperImageCell
 } from './styled'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
@@ -180,39 +181,42 @@ const TableComment = ({
             </Header>
             <CheckCell dataKey='id' onChange={onClickCheckbox} />
           </Column>
+
           <Column width={60} align='center'>
-            <Header>Avatar</Header>
-            <ImageCell dataKey='avatar' />
+            <Header>Image</Header>
+            <ImageCell dataKey='image' />
           </Column>
 
-          <Column width={160} sortable>
-            <Header>{'Họ & tên'}</Header>
-            <TextCell dataKey='username' />
+          <Column width={60} align='center'>
+            <Header>ID</Header>
+            <TextCell dataKey='id' />
           </Column>
 
-          <Column width={120}>
-            <Header>Số điện thoại</Header>
-            <Cell>
-              {rowData => (
-                <Link href={`tel:${rowData.phone}`}>{rowData.phone}</Link>
-              )}
-            </Cell>
+          <Column width={60} align='center'>
+            <Header>Title</Header>
+            <TextCell dataKey='title' />
           </Column>
 
-          <Column width={200}>
-            <Header>Email</Header>
-            <Cell>
-              {rowData => (
-                <Link href={`mailto:${rowData.email}`}>{rowData.email}</Link>
-              )}
-            </Cell>
+          <Column width={120} align='center'>
+            <Header>Content</Header>
+            <TextCell dataKey='content' />
           </Column>
 
-          <Column width={120}>
-            <Header>Đăng nhập lúc</Header>
-            <Cell>
-              {rowData => <Link href={``}>{rowData.last_login}</Link>}
-            </Cell>
+          <Column width={80} align='center'>
+            <Header>ID Order</Header>
+            <TextCell dataKey='orderId' />
+          </Column>
+
+          <Column width={60} align='center'>
+            <Header>Star</Header>
+            <TextCell dataKey='star' />
+          </Column>
+
+          <Column width={150} sortable>
+            <Header>
+              <span onClick={() => onSort('createdAt')}>Ngày thêm</span>
+            </Header>
+            <TextCell dataKey='createdAt' />
           </Column>
 
           <Column width={100}>

@@ -18,7 +18,8 @@ import {
   Toolbar,
   Wrapper,
   WrapperIcon,
-  WrapperIconButton
+  WrapperIconButton,
+  WrapperImageCell
 } from './styled'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
@@ -180,39 +181,35 @@ const TableCategory = ({
             </Header>
             <CheckCell dataKey='id' onChange={onClickCheckbox} />
           </Column>
+
+          <Column width={150} align='center'>
+            <Header>Icon</Header>
+            <WrapperImageCell dataKey='icon' />
+          </Column>
+
+          <Column width={150} align='center'>
+            <Header>Ảnh</Header>
+            <WrapperImageCell dataKey='image' />
+          </Column>
+
           <Column width={60} align='center'>
-            <Header>Avatar</Header>
-            <ImageCell dataKey='avatar' />
+            <Header>ID</Header>
+            <TextCell dataKey='id' />
           </Column>
 
-          <Column width={160} sortable>
-            <Header>{'Họ & tên'}</Header>
-            <TextCell dataKey='username' />
+          <Column width={60} align='center'>
+            <Header>Danh mục cha</Header>
+            <TextCell dataKey='idCategory' />
           </Column>
 
-          <Column width={120}>
-            <Header>Số điện thoại</Header>
-            <Cell>
-              {rowData => (
-                <Link href={`tel:${rowData.phone}`}>{rowData.phone}</Link>
-              )}
-            </Cell>
+          <Column width={60} align='center'>
+            <Header>Danh mục con</Header>
+            <TextCell dataKey='name' />
           </Column>
 
-          <Column width={200}>
-            <Header>Email</Header>
-            <Cell>
-              {rowData => (
-                <Link href={`mailto:${rowData.email}`}>{rowData.email}</Link>
-              )}
-            </Cell>
-          </Column>
-
-          <Column width={120}>
-            <Header>Đăng nhập lúc</Header>
-            <Cell>
-              {rowData => <Link href={``}>{rowData.last_login}</Link>}
-            </Cell>
+          <Column width={160} align='center'>
+            <Header>Mô tả sản phẩm</Header>
+            <TextCell dataKey='description' />
           </Column>
 
           <Column width={100}>

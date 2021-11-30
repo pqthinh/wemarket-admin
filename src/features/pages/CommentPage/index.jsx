@@ -1,14 +1,14 @@
 import { useDebounce, useRequestManager } from 'hooks'
 import { TopBody } from 'molecules'
-import { TableUserGroup, WrapperContentBody } from 'organisms'
+import {WrapperContentBody, TableComment } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
 
 const CommentPage = ({ ...others }) => {
-  const [listUser, setListUser] = useState([])
+  const [listComment, setListComment] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const { onPostExecute } = useRequestManager()
+  const { onGetExecute } = useRequestManager()
 
   const searchInput = useDebounce(search, 5000)
 
@@ -21,8 +21,8 @@ const CommentPage = ({ ...others }) => {
 
   const _renderTableProduct = useCallback(() => {
     return (
-      <TableUserGroup
-        expData={listUser}
+      <TableComment
+        expData={listComment}
         page={page}
         setPage={setPage}
         totalRecord={totalRecord}
@@ -31,16 +31,16 @@ const CommentPage = ({ ...others }) => {
         limit={10}
       />
     )
-  }, [listUser, page, reload, totalRecord])
+  }, [listComment, page, reload, totalRecord])
 
-  const getListUser = useCallback(() => {
+  const getListComment = useCallback(() => {
     async function execute(search, page) {
-      const result = await onPostExecute(EndPoint.GET_LIST_USER, {
+      const result = await onGetExecute(EndPoint.GET_LIST_COMMENT, {
         query: search,
         offset: page
       })
       if (result) {
-        setListUser(result.result)
+        setListComment(result.result)
         setTotalRecord(result.total)
       }
     }
@@ -49,19 +49,19 @@ const CommentPage = ({ ...others }) => {
 
   useEffect(() => {
     if (reload) {
-      getListUser()
+      getListComment()
       setReload(false)
     }
   }, [reload])
 
   useEffect(() => {
-    if (!reload) getListUser()
+    if (!reload) getListComment()
   }, [searchInput, page])
 
   return (
     <WrapperContentBody
       top={TopTab()}
-      contentBody={'Quản lý người dùng'}
+      contentBody={'Quản lý bình luận'}
       {...others}
     >
       {_renderTableProduct()}

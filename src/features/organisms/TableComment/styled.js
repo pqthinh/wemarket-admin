@@ -8,7 +8,8 @@ import {
     BaseLink,
     BaseModal,
     BaseText,
-    BaseToggle
+    BaseToggle,
+    ImageCell
   } from 'atoms'
   import { Button, ButtonToolbar, IconButton, Table } from 'rsuite'
   import styled from 'styled-components'
@@ -75,4 +76,11 @@ import {
   export const ButtonNotification = styled(Button)`
     ${props => props.success && `color: #E26740;`}
   `
+  export const WrapperImageCell = styled(ImageCell)`
+img {
+  width: 100%;
+  border-radius: 4px;
+  min-height: 100px;
+}
+`
   
