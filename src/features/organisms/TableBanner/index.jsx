@@ -31,13 +31,13 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
     setShowModalFormEdit(false)
   }, [showModalFormEdit])
 
-  const _renderModalFormCustomer = useCallback(() => {
+  const _renderModalFormBanner = useCallback(() => {
     return (
       <Modal
         show={showModalFormEdit}
         onHide={hideModal}
         body={
-          <FormEdit customer={rowData} type={'update'} setReload={setReload} />
+          <FormEdit banner = {rowData} type={'update'} setReload={setReload} />
         }
       />
     )
@@ -65,7 +65,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
 
   return (
     <Cell {...props}>
-      {showModalFormEdit && _renderModalFormCustomer()}
+      {showModalFormEdit && _renderModalFormBanner()}
       {showModalFormChangePassword && _renderModalFormChangePassword()}
       <WrapperIcon>
         <WrapperIconButton
@@ -84,7 +84,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
 
 const ToggleCell = ({ rowData, ...props }) => {
   const changeStatus = useCallback((id, status) => {
-    console.log(id, status, 'customer')
+    console.log(id, status, 'banner')
   }, [])
 
   const handleActive = useCallback((id, status) => {

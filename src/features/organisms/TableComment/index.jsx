@@ -182,7 +182,7 @@ const TableComment = ({
             <CheckCell dataKey='id' onChange={onClickCheckbox} />
           </Column>
 
-          <Column width={60} align='center'>
+          <Column width={120} align='center'>
             <Header>Image</Header>
             <ImageCell dataKey='image' />
           </Column>
@@ -192,7 +192,7 @@ const TableComment = ({
             <TextCell dataKey='id' />
           </Column>
 
-          <Column width={60} align='center'>
+          <Column width={120} align='center'>
             <Header>Title</Header>
             <TextCell dataKey='title' />
           </Column>

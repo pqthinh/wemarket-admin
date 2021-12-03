@@ -182,7 +182,7 @@ const TableCategory = ({
             <CheckCell dataKey='id' onChange={onClickCheckbox} />
           </Column>
 
-          <Column width={150} align='center'>
+          <Column width={60} align='center'>
             <Header>Icon</Header>
             <WrapperImageCell dataKey='icon' />
           </Column>
@@ -192,17 +192,17 @@ const TableCategory = ({
             <WrapperImageCell dataKey='image' />
           </Column>
 
-          <Column width={60} align='center'>
+          <Column width={40} align='center'>
             <Header>ID</Header>
             <TextCell dataKey='id' />
           </Column>
 
-          <Column width={60} align='center'>
+          {/* <Column width={60} align='center'>
             <Header>Danh mục cha</Header>
             <TextCell dataKey='idCategory' />
-          </Column>
+          </Column> */}
 
-          <Column width={60} align='center'>
+          <Column width={120} align='center'>
             <Header>Danh mục con</Header>
             <TextCell dataKey='name' />
           </Column>
