@@ -10,7 +10,7 @@ const EndPoint = {
   GET_LIST_USER: 'admin/user',
   GET_LIST_BANNER: 'admin/banner/list',
   GET_LIST_COMMENT: 'admin/comment/list',
-  GET_LIST_CATEGORY: 'common/category'
+  GET_LIST_CATEGORY: 'common/subcategory'
 }
 
 export default EndPoint

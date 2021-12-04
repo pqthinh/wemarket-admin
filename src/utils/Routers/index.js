@@ -9,7 +9,6 @@ const Routers = {
     '/',
     '/users',
     '/products',
-    '/post',
     '/banners',
     '/comments',
     '/categorys',
@@ -17,7 +16,6 @@ const Routers = {
     '/post/video',
     '/product',
     '/review'
-
   ],
   PROFILE: '/profile',
   CHANGE_PASSWORD: '/change-password',

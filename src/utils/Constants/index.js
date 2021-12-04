@@ -19,7 +19,6 @@ const Constant = {
     { title: 'Tổng quan', link: '/home' },
     { title: 'Quản lý người dùng', link: '/users' },
     { title: 'Quản lý sản phẩm', link: '/products' },
-    { title: 'Quản lý đánh giá', link: '/reviews' },
     { title: 'Quản lý banner', link: '/banners' },
     { title: 'Quản lý comment', link: '/comments' },
     { title: 'Quản lý danh mục',link: '/categorys' },
@@ -29,10 +28,9 @@ const Constant = {
     { key: '1', icon: 'feather-bar-chart-2', label: 'Tổng quan' },
     { key: '2', icon: 'feather-user', label: 'Quản lý người dùng' },
     { key: '3', icon: 'feather-airplay', label: 'Quản lý sản phẩm' },
-    { key: '4', icon: 'feather-star', label: 'Quản lý đánh giá' },
-    { key: '5', icon: 'fa fa-dropbox', label: 'Quản lý banner' },
-    { key: '6', icon: 'feather-comment', label: 'Quản lý comment' },
-    { key: '7',  icon: 'feather-film', label: 'Quản lý danh mục'},
+    { key: '4', icon: 'feather-layers', label: 'Quản lý banner' },
+    { key: '5', icon: 'feather-inbox', label: 'Quản lý comment' },
+    { key: '6',  icon: 'feather-film', label: 'Quản lý danh mục'},
     
   ]
 }
