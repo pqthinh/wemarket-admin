@@ -19,6 +19,7 @@ import {
   WrapperLoading
 } from './styled'
 import { bannerModel } from './validation'
+import { uploadImage } from 'utils/Helpers'
 
 const FormBanner = ({ banner, type, setReload, ...others }) => {
   const [data, setData] = useState({
@@ -59,7 +60,7 @@ const FormBanner = ({ banner, type, setReload, ...others }) => {
       let endPoint =
         type == 'add' ? EndPoint.CREATE_BANNER : EndPoint.UPDATE_BANNER
 
-      const result = await onPostExecute(endPoint, { ...banner, ...data })
+      const result = await onPostExecute(endPoint, data)
       if (result) {
         setReload(true)
         setLoading(false)
@@ -69,11 +70,19 @@ const FormBanner = ({ banner, type, setReload, ...others }) => {
   }, [])
 
   const onSubmit = useCallback(
-    data => {
+    async data => {
       setLoading(true)
-      bannerRequest(data, type)
+      const downloadURL = await uploadImage(
+        `images/banner/${Date.now()}.jpg`,
+        data.file
+      )
+      setData(prev => ({ ...prev, url: downloadURL }))
+      await bannerRequest(
+        { ...data, url: downloadURL, idBanner: withEmpty('id', banner) },
+        type
+      )
     },
-    [type]
+    [type, banner]
   )
 
   const _handleChangeImage = useCallback(e => {
@@ -81,7 +90,7 @@ const FormBanner = ({ banner, type, setReload, ...others }) => {
     setData(prev => ({
       ...prev,
       url: uri,
-      file: uri
+      file: withEmpty('blobFile', e)
     }))
   }, [])
 
