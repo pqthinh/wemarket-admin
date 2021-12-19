@@ -21,7 +21,7 @@ const Constant = {
     { title: 'Quản lý sản phẩm', link: '/products' },
     { title: 'Quản lý banner', link: '/banners' },
     { title: 'Quản lý comment', link: '/comments' },
-    { title: 'Quản lý danh mục',link: '/categorys' },
+    { title: 'Quản lý danh mục', link: '/categorys' },
     { title: 'Thông tin cá nhân', link: '/profile' }
   ],
   navigators: [
@@ -30,8 +30,12 @@ const Constant = {
     { key: '3', icon: 'feather-airplay', label: 'Quản lý sản phẩm' },
     { key: '4', icon: 'feather-layers', label: 'Quản lý banner' },
     { key: '5', icon: 'feather-inbox', label: 'Quản lý comment' },
-    { key: '6',  icon: 'feather-film', label: 'Quản lý danh mục'},
-    
+    { key: '6', icon: 'feather-film', label: 'Quản lý danh mục' }
+  ],
+  dataBanner: [
+    { label: 'Banner home', value: 'Banner-home' },
+    { label: 'banner-category', value: 'banner-category' },
+    { label: 'banner-top-product', value: 'banner-top-product' }
   ]
 }
 

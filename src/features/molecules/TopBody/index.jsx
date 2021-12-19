@@ -23,7 +23,7 @@ const TopBody = ({
               : status === 2
               ? 'Tìm kiếm bằng mã đơn, số điện thoại...'
               : status === 3
-              ? 'Tìm kiếm bằng tên phiên đấu giá ...'
+              ? 'Tìm kiếm bằng tên bài đăng ...'
               : status === 4
               ? 'Tìm kiếm bằng tên sản phẩm ...'
               : 'Tìm kiếm bằng tiêu đề, mô tả...'

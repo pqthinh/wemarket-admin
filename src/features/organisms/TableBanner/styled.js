@@ -11,10 +11,10 @@ import {
   BaseToggle,
   ImageCell
 } from 'atoms'
-import { FormCustomer } from 'molecules'
+import { FormBanner } from 'molecules'
 import { Button, ButtonToolbar, IconButton, Table } from 'rsuite'
 import styled from 'styled-components'
-  
+
 export const Wrapper = styled(BaseContainer)`
   max-height: calc(100vh - 150px);
   @media screen and (max-width: 980px) {
@@ -64,7 +64,7 @@ export const Modal = styled(BaseModal)`
     min-height: 300px;
   }
 `
-export const FormEdit = styled(FormCustomer)``
+export const FormEdit = styled(FormBanner)``
 export const ContainerBlock = styled.div``
 export const Toggle = styled(BaseToggle)``
 export const Toolbar = styled(ButtonToolbar)`
@@ -77,9 +77,9 @@ export const ButtonNotification = styled(Button)`
   ${props => props.success && `color: #E26740;`}
 `
 export const WrapperImageCell = styled(ImageCell)`
-img {
-  width: 100%;
-  border-radius: 4px;
-  min-height: 100px;
-}
+  img {
+    width: 100%;
+    border-radius: 4px;
+    min-height: 100px;
+  }
 `

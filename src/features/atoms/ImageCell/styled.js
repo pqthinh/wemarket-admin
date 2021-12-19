@@ -6,7 +6,7 @@ const { Cell } = Table
 export const Image = styled(BaseImage)``
 export const WrapperImageCell = styled(Cell)`
   img {
-    object-fit: contain;
+    object-fit: cover;
     width: 100%;
     border-radius: 50%;
     height: 40px;

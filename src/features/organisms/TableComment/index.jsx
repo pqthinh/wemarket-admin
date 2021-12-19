@@ -1,4 +1,4 @@
-import { BasePagination, CheckCell, ImageCell, TextCell } from 'atoms'
+import { BasePagination, CheckCell, TextCell } from 'atoms'
 import { FormChangePassword } from 'molecules'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -11,7 +11,6 @@ import {
   FormEdit,
   Header,
   Icon,
-  Link,
   Modal,
   TextNotification,
   Toggle,
@@ -89,12 +88,12 @@ const ToggleCell = ({ rowData, ...props }) => {
 
   const handleActive = useCallback((id, status) => {
     Notification['info']({
-      title: 'Kích hoạt tài khoản',
+      title: 'Xác nhận',
       duration: 10000,
       description: (
         <Wrapper>
           <TextNotification>
-            Bạn muốn kích hoạt hoặc ban tài khoản này
+            Bạn muốn kích hoạt hoặc ẩn bình luận này
           </TextNotification>
           <Toolbar>
             <ButtonNotification
@@ -163,6 +162,9 @@ const TableComment = ({
     const page = new URLSearchParams(search).get('page')
     if (page) setPage(eval(page))
   }, [location.pathname])
+  const onSort = (type, sort) => {
+    console.log(type, sort)
+  }
 
   const _renderTable = useCallback(
     expData => {
@@ -184,7 +186,7 @@ const TableComment = ({
 
           <Column width={120} align='center'>
             <Header>Image</Header>
-            <ImageCell dataKey='image' />
+            <WrapperImageCell dataKey='image' />
           </Column>
 
           <Column width={60} align='center'>

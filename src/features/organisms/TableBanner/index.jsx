@@ -1,5 +1,4 @@
-import { BasePagination, CheckCell, ImageCell, TextCell } from 'atoms'
-import { FormChangePassword } from 'molecules'
+import { BasePagination, CheckCell, TextCell } from 'atoms'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -11,7 +10,6 @@ import {
   FormEdit,
   Header,
   Icon,
-  Link,
   Modal,
   TextNotification,
   Toggle,
@@ -24,8 +22,6 @@ import {
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
-  const [showModalFormChangePassword, setShowModalFormChangePassword] =
-    useState(false)
 
   const hideModal = useCallback(() => {
     setShowModalFormEdit(false)
@@ -37,45 +33,20 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
         show={showModalFormEdit}
         onHide={hideModal}
         body={
-          <FormEdit banner = {rowData} type={'update'} setReload={setReload} />
+          <FormEdit banner={rowData} type={'update'} setReload={setReload} />
         }
       />
     )
   }, [showModalFormEdit])
 
-  const hideModalChangePassword = useCallback(() => {
-    setShowModalFormChangePassword(false)
-  }, [showModalFormChangePassword])
-
-  const _renderModalFormChangePassword = useCallback(() => {
-    return (
-      <Modal
-        show={showModalFormChangePassword}
-        onHide={hideModalChangePassword}
-        body={
-          <FormChangePassword
-            type='change-password-user'
-            setReload={setReload}
-            id={rowData['id']}
-          />
-        }
-      />
-    )
-  }, [showModalFormChangePassword])
-
   return (
     <Cell {...props}>
       {showModalFormEdit && _renderModalFormBanner()}
-      {showModalFormChangePassword && _renderModalFormChangePassword()}
       <WrapperIcon>
         <WrapperIconButton
           onClick={() => setShowModalFormEdit(true)}
           appearance='subtle'
           icon={<Icon name='feather-edit' />}
-        />
-        <WrapperIconButton
-          onClick={() => setShowModalFormChangePassword(true)}
-          icon={<Icon name='feather-key' strokeWidth={1} size={24} />}
         />
       </WrapperIcon>
     </Cell>
@@ -188,7 +159,17 @@ const TableBanner = ({
 
           <Column width={150} align='center'>
             <Header>Image URL</Header>
-            <WrapperImageCell dataKey='image' />
+            <WrapperImageCell dataKey='url' />
+          </Column>
+
+          <Column width={150} align='center'>
+            <Header>Kiểu banner</Header>
+            <TextCell dataKey='type' />
+          </Column>
+
+          <Column width={200} align='center'>
+            <Header>Mô tả banner</Header>
+            <TextCell dataKey='description' />
           </Column>
 
           <Column width={100}>

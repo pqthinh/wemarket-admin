@@ -1,43 +1,43 @@
-import { withEmpty, withNull } from 'exp-value'
+import { withEmpty, withNull, withObject } from 'exp-value'
 import { useImage } from 'hooks'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { InputPicker } from 'rsuite'
 import { Constants } from 'utils'
 import InputGroup from '../InputGroup'
 import {
   Button,
+  Drag,
+  DragText,
   Form,
   Icon,
-  IconAvatar,
-  ImageAvatar,
+  Image,
   LayoutWrapper,
   Title,
-  Uploader,
   Wrapper,
-  WrapperAvatar,
   WrapperLoading
 } from './styled'
-import { BannerModel } from './validation'
+import { bannerModel } from './validation'
 
 const FormBanner = ({ banner, type, ...others }) => {
   const [data, setData] = useState({
-    url : '',
-    status: ''
+    url: '',
+    status: '',
+    file: null
   })
-  const [file, setFile] = useState(null)
   const [loading, setLoading] = useState(false)
   const { resizeImage } = useImage()
 
   const contentForm = useMemo(() => {
     if (type == 'add') {
       return {
-        title: 'Thêm mới thành viên',
+        title: 'Thêm ảnh banner',
         titleButton: 'Thêm mới'
       }
     }
     if (type == 'update') {
       return {
-        title: 'Chỉnh sửa thông tin',
+        title: 'Chỉnh sửa',
         titleButton: 'Cập nhật'
       }
     }
@@ -65,22 +65,14 @@ const FormBanner = ({ banner, type, ...others }) => {
     [data]
   )
 
-  const getFileAvatar = useCallback(async e => {
+  const _handleChangeImage = useCallback(async e => {
     const image = await resizeImage(withEmpty('blobFile', e[e.length - 1]))
-    setFile(image)
     setData(prev => ({
       ...prev,
-      avatar: withEmpty('blobFile', image)
+      url: withEmpty('blobFile', image),
+      file: withEmpty('blobFile', image)
     }))
   }, [])
-
-  const _renderAvatar = useCallback(() => {
-    if (type == 'add' && !file) {
-      return <ImageAvatar source={Constants.images[0].defaultAvatar} />
-    }
-    if (!file) return <ImageAvatar source={data.avatar} />
-    return <ImageAvatar source={URL.createObjectURL(file)} />
-  }, [file, data, type])
 
   const _renderLoading = useCallback(() => {
     return <WrapperLoading />
@@ -92,26 +84,52 @@ const FormBanner = ({ banner, type, ...others }) => {
         <Form
           fluid
           {...others}
-          model= {bannerModel}
+          model={bannerModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
         >
           <Title>{contentForm.title}</Title>
-          <WrapperAvatar>
-            {_renderAvatar()}
-            <Uploader
-              listType='picture'
-              onChange={getFileAvatar}
-              autoUpload={false}
-              fileListVisible={false}
-              multiple={false}
-              draggable={true}
-            >
-              <IconAvatar name='feather-camera' size={14} />
-            </Uploader>
-          </WrapperAvatar>
-
-          
+          <Drag
+            draggable
+            onChange={e => _handleChangeImage(e[e.length - 1])}
+            autoUpload={false}
+          >
+            {data.image || data.file ? (
+              <Image
+                source={
+                  (data.file &&
+                    URL.createObjectURL(withObject('file', data))) ||
+                  data.url
+                }
+              />
+            ) : (
+              <DragText>Tải ảnh lên ...</DragText>
+            )}
+          </Drag>
+          <InputGroup
+            value={withEmpty('type', data)}
+            label={'Chọn kiểu banner'}
+            onChange={value => _handleChangeBanner('type', value)}
+            placeholder={'Chọn kiểu banner'}
+            name={'type'}
+            leftIcon={<Icon name={'feather-type'} />}
+            accepter={InputPicker}
+            data={Constants.dataBanner}
+            fluid
+            require
+          />
+          <InputGroup
+            value={withEmpty('description', data)}
+            label={'Mô tả'}
+            onChange={value => _handleChangeBanner('description', value)}
+            placeholder={'Mô tả'}
+            name={'description'}
+            leftIcon={<Icon name={'feather-figma'} />}
+            require
+          />
+          <Wrapper>
+            <Button type={'submit'}>{contentForm.titleButton}</Button>
+          </Wrapper>
         </Form>
       </LayoutWrapper>
     )
@@ -120,7 +138,7 @@ const FormBanner = ({ banner, type, ...others }) => {
   useEffect(() => {
     if (!banner) return
     const expData = {
-      url: withNull('url', banner),
+      url: withNull('url', banner)
     }
     setData(expData)
   }, [banner])

@@ -5,23 +5,28 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
 
 const BannerPage = ({ ...others }) => {
-  // ctrl + F2 | ctrl + f 
   const [listBanner, setListBanner] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  // hàm này custom lại axios 
   const { onGetExecute } = useRequestManager()
-
   const searchInput = useDebounce(search, 5000)
-
   const [totalRecord, setTotalRecord] = useState(0)
   const [reload, setReload] = useState(true)
 
   const TopTab = React.useCallback(() => {
-    return <TopBody search={search} setSearch={setSearch} status={1} />
+    return (
+      <TopBody
+        search={search}
+        setSearch={setSearch}
+        status={1}
+        buttonAction={() => {
+          console.log('thinh')
+        }}
+      />
+    )
   }, [search])
 
-  const _renderTableProduct = useCallback(() => {
+  const _renderTableBanner = useCallback(() => {
     return (
       <TableBanner
         expData={listBanner}
@@ -66,7 +71,7 @@ const BannerPage = ({ ...others }) => {
       contentBody={'Quản lý banner'}
       {...others}
     >
-      {_renderTableProduct()}
+      {_renderTableBanner()}
     </WrapperContentBody>
   )
 }
