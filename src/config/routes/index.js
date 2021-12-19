@@ -5,6 +5,7 @@ import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 import { PrivateTemplate, PublicTemplate } from 'templates'
 import { Routers, Constants } from 'utils'
 
+
 const EmptyPage = lazy(() => import('pages/NotFoundPage'))
 //  public page
 const LoginPage = lazy(() => import('pages/LoginPage'))
@@ -16,6 +17,9 @@ const ChangePasswordPage = lazy(() => import('pages/Profile/ChangePassword'))
 const Dashboard = lazy(() => import('pages/dashboard'))
 const ProductPage = lazy(() => import('pages/ProductPage'))
 const UserPage = lazy(() => import('pages/UserPage'))
+const BannerPage = lazy(() => import('pages/BannerPage'))
+const CommentPage = lazy(() => import('pages/CommentPage'))
+const CategoryPage = lazy(() => import('pages/CategoryPage'))
 const ProfilePage = lazy(() => import('pages/Profile/ProfilePage'))
 const UpdateProfilePage = lazy(() => import('pages/Profile/ProfileEdit'))
 
@@ -108,6 +112,30 @@ const Routes = ({ isLoggedIn, ...rest }) => {
           path={'/users'}
           render={props => {
             return <UserPage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/banners'}
+          render={props => {
+            return <BannerPage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/comments'}
+          render={props => {
+            return <CommentPage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/categorys'}
+          render={props => {
+            return <CategoryPage {...rest} {...props} />
           }}
         />
       </PrivateTemplate>

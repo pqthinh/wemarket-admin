@@ -1,14 +1,14 @@
 import { useDebounce, useRequestManager } from 'hooks'
 import { TopBody } from 'molecules'
-import { TableUserGroup, WrapperContentBody } from 'organisms'
+import { WrapperContentBody, TableCategory } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
 
-const UserPage = ({ ...others }) => {
-  const [listUser, setListUser] = useState([])
+const CategoryPage = ({ ...others }) => {
+  const [listCategory, setListCategory] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const { onPostExecute } = useRequestManager()
+  const { onGetExecute } = useRequestManager()
 
   const searchInput = useDebounce(search, 5000)
 
@@ -16,13 +16,13 @@ const UserPage = ({ ...others }) => {
   const [reload, setReload] = useState(true)
 
   const TopTab = React.useCallback(() => {
-    return <TopBody search={search} setSearch={setSearch} status={1} />
+    return <TopBody search={search} setSearch={setSearch} />
   }, [search])
 
   const _renderTableProduct = useCallback(() => {
     return (
-      <TableUserGroup
-        expData={listUser}
+      <TableCategory
+        expData={listCategory}
         page={page}
         setPage={setPage}
         totalRecord={totalRecord}
@@ -31,16 +31,16 @@ const UserPage = ({ ...others }) => {
         limit={10}
       />
     )
-  }, [listUser, page, reload, totalRecord])
+  }, [listCategory, page, reload, totalRecord])
 
-  const getListUser = useCallback(() => {
+  const getListCategory = useCallback(() => {
     async function execute(search, page) {
-      const result = await onPostExecute(EndPoint.GET_LIST_USER, {
+      const result = await onGetExecute(EndPoint.GET_LIST_CATEGORY, {
         query: search,
         offset: page
       })
       if (result) {
-        setListUser(result.result)
+        setListCategory(result.result)
         setTotalRecord(result.total)
       }
     }
@@ -49,19 +49,19 @@ const UserPage = ({ ...others }) => {
 
   useEffect(() => {
     if (reload) {
-      getListUser()
+      getListCategory()
       setReload(false)
     }
   }, [reload])
 
   useEffect(() => {
-    if (!reload) getListUser()
+    if (!reload) getListCategory()
   }, [searchInput, page])
 
   return (
     <WrapperContentBody
       top={TopTab()}
-      contentBody={'Quản lý người dùng'}
+      contentBody={'Quản lý danh mục'}
       {...others}
     >
       {_renderTableProduct()}
@@ -69,4 +69,4 @@ const UserPage = ({ ...others }) => {
   )
 }
 
-export default React.memo(UserPage)
+export default React.memo(CategoryPage)

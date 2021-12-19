@@ -1,8 +1,9 @@
-import { BasePagination, TextCell } from 'atoms'
+import { BasePagination, CheckCell, ImageCell, TextCell } from 'atoms'
+import { FormChangePassword } from 'molecules'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { Notification, Table } from 'rsuite'
+import { Checkbox, Notification, Table } from 'rsuite'
 import {
   ButtonNotification,
   Cell,
@@ -10,6 +11,7 @@ import {
   FormEdit,
   Header,
   Icon,
+  Link,
   Modal,
   TextNotification,
   Toggle,
@@ -19,32 +21,61 @@ import {
   WrapperIconButton,
   WrapperImageCell
 } from './styled'
+
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
+  const [showModalFormChangePassword, setShowModalFormChangePassword] =
+    useState(false)
+
   const hideModal = useCallback(() => {
     setShowModalFormEdit(false)
   }, [showModalFormEdit])
 
-  const _renderModalFormProduct = useCallback(() => {
+  const _renderModalFormCustomer = useCallback(() => {
     return (
       <Modal
         show={showModalFormEdit}
         onHide={hideModal}
         body={
-          <FormEdit product={rowData} type={'update'} setReload={setReload} />
+          <FormEdit customer={rowData} type={'update'} setReload={setReload} />
         }
       />
     )
   }, [showModalFormEdit])
 
+  const hideModalChangePassword = useCallback(() => {
+    setShowModalFormChangePassword(false)
+  }, [showModalFormChangePassword])
+
+  const _renderModalFormChangePassword = useCallback(() => {
+    return (
+      <Modal
+        show={showModalFormChangePassword}
+        onHide={hideModalChangePassword}
+        body={
+          <FormChangePassword
+            type='change-password-user'
+            setReload={setReload}
+            id={rowData['id']}
+          />
+        }
+      />
+    )
+  }, [showModalFormChangePassword])
+
   return (
     <Cell {...props}>
-      {showModalFormEdit && _renderModalFormProduct()}
+      {showModalFormEdit && _renderModalFormCustomer()}
+      {showModalFormChangePassword && _renderModalFormChangePassword()}
       <WrapperIcon>
         <WrapperIconButton
           onClick={() => setShowModalFormEdit(true)}
           appearance='subtle'
           icon={<Icon name='feather-edit' />}
+        />
+        <WrapperIconButton
+          onClick={() => setShowModalFormChangePassword(true)}
+          icon={<Icon name='feather-key' strokeWidth={1} size={24} />}
         />
       </WrapperIcon>
     </Cell>
@@ -53,16 +84,18 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
 
 const ToggleCell = ({ rowData, ...props }) => {
   const changeStatus = useCallback((id, status) => {
-    console.log(id, status)
+    console.log(id, status, 'customer')
   }, [])
 
   const handleActive = useCallback((id, status) => {
     Notification['info']({
-      title: 'Kích hoạt sản phẩm',
+      title: 'Kích hoạt tài khoản',
       duration: 10000,
       description: (
         <Wrapper>
-          <TextNotification>Bạn muốn kích hoạt sản phẩm này ?</TextNotification>
+          <TextNotification>
+            Bạn muốn kích hoạt hoặc ban tài khoản này
+          </TextNotification>
           <Toolbar>
             <ButtonNotification
               onClick={() => {
@@ -84,34 +117,39 @@ const ToggleCell = ({ rowData, ...props }) => {
 
   return (
     <Cell {...props}>
-      <Toggle
-        active={rowData['status'] === 'active'}
-        onChange={() =>
-          handleActive(
-            rowData['id'],
-            rowData['status'] === 'active' ? 'deactive' : 'active'
-          )
-        }
-        checkedChildren={<Icon name='feather-check' />}
-        unCheckedChildren={<Icon name='feather-x' />}
-      />
+      {rowData['status'] !== 'deactive' ? (
+        <Toggle
+          active={rowData['status'] === 'active'}
+          onChange={() =>
+            handleActive(
+              rowData['id'],
+              rowData['status'] === 'active' ? 'ban' : 'active'
+            )
+          }
+          checkedChildren={<Icon name='feather-check' />}
+          unCheckedChildren={<Icon name='feather-x' />}
+        />
+      ) : null}
     </Cell>
   )
 }
 
-const TableProductGroup = ({
+const TableCategory = ({
   expData,
   totalRecord,
   page,
   setPage,
+  loading,
+  setReload,
   limit,
-  sort,
-  setSort,
   ...others
 }) => {
   const history = useHistory()
   const location = useLocation()
   const { search } = useLocation()
+
+  const onClickCheckbox = useCallback(() => {}, [])
+  const onCheckAll = useCallback(() => {}, [])
 
   const onLoadPage = useCallback(
     page => {
@@ -121,104 +159,77 @@ const TableProductGroup = ({
     [page]
   )
 
-  const onSort = useCallback(
-    sortType => {
-      setSort({ key: sortType, type: sort.type == 'asc' ? 'desc' : 'asc' })
-    },
-    [sort, setSort]
-  )
-
   const onLoadParamPage = useCallback(() => {
     const page = new URLSearchParams(search).get('page')
     if (page) setPage(eval(page))
   }, [location.pathname])
 
   const _renderTable = useCallback(
-    data => {
+    expData => {
       return (
         <Table
-          data={data}
+          data={expData}
+          loading={loading}
           wordWrap
-          id='table-product'
-          height={window.innerHeight - 220}
+          id='table'
+          height={window.innerHeight - 210}
           {...others}
         >
+          <Column width={40} align='center'>
+            <Header>
+              <Checkbox inline onChange={onCheckAll} />
+            </Header>
+            <CheckCell dataKey='id' onChange={onClickCheckbox} />
+          </Column>
+
+          <Column width={60} align='center'>
+            <Header>Icon</Header>
+            <WrapperImageCell dataKey='icon' />
+          </Column>
+
           <Column width={150} align='center'>
-            <Header>Image</Header>
+            <Header>Ảnh</Header>
             <WrapperImageCell dataKey='image' />
           </Column>
-          <Column width={200}>
-            <Header>Tên sp</Header>
+
+          <Column width={40} align='center'>
+            <Header>ID</Header>
+            <TextCell dataKey='id' />
+          </Column>
+
+          {/* <Column width={60} align='center'>
+            <Header>Danh mục cha</Header>
+            <TextCell dataKey='idCategory' />
+          </Column> */}
+
+          <Column width={120} align='center'>
+            <Header>Danh mục con</Header>
             <TextCell dataKey='name' />
           </Column>
-          <Column width={250}>
-            <Header>Mô tả</Header>
+
+          <Column width={160} align='center'>
+            <Header>Mô tả sản phẩm</Header>
             <TextCell dataKey='description' />
-          </Column>
-          <Column width={140} sortable>
-            <Header>
-              <span onClick={() => onSort('categoryName')}>Danh mục SP</span>
-            </Header>
-            <TextCell dataKey='categoryName' />
-          </Column>
-          <Column width={140}>
-            <Header>Tên user</Header>
-            <TextCell dataKey='username' />
-          </Column>
-          <Column width={140}>
-            <Header>Email user</Header>
-            <TextCell dataKey='email' />
-          </Column>
-
-          <Column width={100} sortable>
-            <Header>
-              <span onClick={() => onSort('price')}>Giá</span>
-            </Header>
-            <TextCell dataKey='price' />
-          </Column>
-          <Column width={60} sortable>
-            <Header>
-              <span onClick={() => onSort('quantity')}>SL</span>
-            </Header>
-            <TextCell dataKey='quantity' />
-          </Column>
-          <Column width={80} sortable>
-            <Header>
-              <span onClick={() => onSort('view')}>View </span>
-            </Header>
-            <TextCell dataKey='view' />
-          </Column>
-          <Column width={60} sortable>
-            <Header>
-              <span onClick={() => onSort('like_num')}>Like</span>
-            </Header>
-            <TextCell dataKey='like_num' />
-          </Column>
-
-          <Column width={150}>
-            <Header>Địa điểm</Header>
-            <TextCell dataKey='address' />
-          </Column>
-
-          <Column width={150} sortable>
-            <Header>
-              <span onClick={() => onSort('createdAt')}>Ngày đăng</span>
-            </Header>
-            <TextCell dataKey='createdAt' />
           </Column>
 
           <Column width={100}>
             <Header>Kích hoạt</Header>
-            <ToggleCell dataKey='status' />
+            <ToggleCell dataKey='status' setReload={setReload} />
           </Column>
+
           <Column width={120}>
             <Header>Hành động</Header>
-            <ActionCell dataKey='id' {...others} />
+            <ActionCell
+              dataKey='id'
+              loading={loading ? 1 : 0}
+              setReload={setReload}
+              {...others}
+            />
           </Column>
         </Table>
       )
     },
-    [window.innerHeight, sort]
+    [loading, window.innerHeight]
   )
 
   useEffect(onLoadParamPage, [location.pathname])
@@ -244,16 +255,16 @@ ActionCell.propTypes = {
   loading: PropTypes.any,
   setReload: PropTypes.func
 }
-TableProductGroup.propTypes = {
+TableCategory.propTypes = {
   expData: PropTypes.array,
   totalRecord: PropTypes.number,
   page: PropTypes.number,
   setPage: PropTypes.func,
   loading: PropTypes.any,
   setReload: PropTypes.func,
-  limit: PropTypes.number,
-  setSort: PropTypes.func,
-  sort: PropTypes.any
+  showModalFormEdit: PropTypes.bool,
+  setShowModalFormEdit: PropTypes.func,
+  limit: PropTypes.number
 }
 ToggleCell.propTypes = {
   rowData: PropTypes.object,
@@ -263,4 +274,4 @@ FormEdit.propTypes = {
   setReload: PropTypes.func
 }
 
-export default React.memo(TableProductGroup)
+export default React.memo(TableCategory)

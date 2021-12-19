@@ -164,17 +164,11 @@ const TableCustomerGroup = ({
   }, [location.pathname])
 
   const _renderTable = useCallback(
-    (expData, page) => {
-      const data = expData.filter((v, i) => {
-        const start = limit * (page - 1)
-        const end = start + limit
-        return i >= start && i < end
-      })
+    expData => {
       return (
         <Table
-          data={data}
+          data={expData}
           loading={loading}
-          setReload={setReload}
           wordWrap
           id='table'
           height={window.innerHeight - 210}
@@ -193,7 +187,7 @@ const TableCustomerGroup = ({
 
           <Column width={160} sortable>
             <Header>{'Họ & tên'}</Header>
-            <TextCell dataKey='name' />
+            <TextCell dataKey='username' />
           </Column>
 
           <Column width={120}>
@@ -245,12 +239,12 @@ const TableCustomerGroup = ({
 
   return (
     <Wrapper {...others}>
-      {_renderTable(expData, page)}
+      {_renderTable(expData)}
       <BasePagination
         onChangePage={e => onLoadPage(e)}
         total={totalRecord}
         activePage={page}
-        limit={10}
+        limit={limit}
       />
     </Wrapper>
   )

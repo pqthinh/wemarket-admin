@@ -18,16 +18,7 @@ import {
 import { productModel } from './validation'
 
 const FormProduct = ({ product, type, ...others }) => {
-  const [data, setData] = useState({
-    name: withEmpty('name', product),
-    keyword: withEmpty('keyword', product),
-    short_description: withEmpty('short_description', product),
-    slug: withEmpty('slug', product),
-    thumb_url: withEmpty('thumb_url', product),
-    id: withEmpty('id', product),
-    category: withEmpty('category', product),
-    file: null
-  })
+  const [data, setData] = useState(product)
   const { resizeImage } = useImage()
 
   const [loading, setLoading] = useState(false)
@@ -99,12 +90,12 @@ const FormProduct = ({ product, type, ...others }) => {
             onChange={e => _handleChangeImage(e[e.length - 1])}
             autoUpload={false}
           >
-            {data.thumb_url || data.file ? (
+            {data.image || data.file ? (
               <Image
                 source={
                   (data.file &&
                     URL.createObjectURL(withObject('file', data))) ||
-                  data.thumb_url
+                  data.image
                 }
               />
             ) : (
@@ -114,38 +105,77 @@ const FormProduct = ({ product, type, ...others }) => {
 
           <InputGroup
             value={withEmpty('name', data)}
-            label={'Tên'}
+            label={'Tên sp'}
             onChange={value => _handleChangeProduct('name', value)}
-            placeholder={'Tên'}
+            placeholder={'Tên sp'}
             name={'name'}
             leftIcon={<Icon name={'feather-user'} />}
             require
           />
           <InputGroup
-            value={withEmpty('keyword', data)}
-            label={'Key Word'}
-            onChange={value => _handleChangeProduct('keyword', value)}
-            placeholder={'Key Word'}
-            name={'keyword'}
+            value={withEmpty('description', data)}
+            label={'Mô tả'}
+            onChange={value => _handleChangeProduct('description', value)}
+            placeholder={'Mô tả'}
+            name={'description'}
             leftIcon={<Icon name={'feather-user'} />}
             require
           />
           <InputGroup
-            value={withEmpty('short_description', data)}
-            label={'Description'}
-            onChange={value => _handleChangeProduct('short_description', value)}
-            placeholder={'Desctiption'}
-            name={'short_description'}
+            value={withEmpty('categoryId', data)}
+            label={'Mã danh mục'}
+            onChange={value => _handleChangeProduct('categoryId', value)}
+            placeholder={'Mã danh mục'}
+            name={'categoryId'}
             leftIcon={<Icon name={'feather-phone'} />}
             require
           />
 
           <InputGroup
-            value={withEmpty('slug', data)}
-            label={'Slug'}
-            onChange={value => _handleChangeProduct('slug', value)}
-            placeholder={'Slug'}
-            name={'slug'}
+            value={withEmpty('price', data)}
+            label={'Giá cả'}
+            onChange={value => _handleChangeProduct('price', value)}
+            placeholder={'Giá cả'}
+            name={'price'}
+            leftIcon={<Icon name={'feather-link'} />}
+            require
+          />
+
+          <InputGroup
+            value={withEmpty('like_num', data)}
+            label={'Số lượt thích'}
+            onChange={value => _handleChangeProduct('like_num', value)}
+            placeholder={'Số lượt thích'}
+            name={'like_num'}
+            leftIcon={<Icon name={'feather-link'} />}
+            require
+          />
+          <InputGroup
+            value={withEmpty('view', data)}
+            label={'Lượt xem'}
+            onChange={value => _handleChangeProduct('view', value)}
+            placeholder={'Lượt xem'}
+            name={'view'}
+            leftIcon={<Icon name={'feather-link'} />}
+            require
+          />
+
+          <InputGroup
+            value={withEmpty('tag', data)}
+            label={'Thẻ tìm kiếm'}
+            onChange={value => _handleChangeProduct('tag', value)}
+            placeholder={'Thẻ tìm kiếm'}
+            name={'tag'}
+            leftIcon={<Icon name={'feather-link'} />}
+            require
+          />
+
+          <InputGroup
+            value={withEmpty('uid', data)}
+            label={'Mã người đăng tin'}
+            onChange={value => _handleChangeProduct('uid', value)}
+            placeholder={'Mã người đăng tin'}
+            name={'uid'}
             leftIcon={<Icon name={'feather-link'} />}
             require
           />

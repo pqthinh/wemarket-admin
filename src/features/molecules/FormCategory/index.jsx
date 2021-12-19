@@ -17,9 +17,9 @@ import {
   WrapperAvatar,
   WrapperLoading
 } from './styled'
-import { customerModel } from './validation'
+import { categoryModel } from './validation'
 
-const FormCustomer = ({ customer, type, ...others }) => {
+const FormCategory = ({ customer, type, ...others }) => {
   const [data, setData] = useState({
     avatar: '',
     username: '',
@@ -97,7 +97,7 @@ const FormCustomer = ({ customer, type, ...others }) => {
         <Form
           fluid
           {...others}
-          model={customerModel}
+          model={categoryModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
         >
@@ -189,11 +189,11 @@ const FormCustomer = ({ customer, type, ...others }) => {
   return loading ? _renderLoading() : _renderForm()
 }
 
-FormCustomer.propTypes = {
+FormCategory.propTypes = {
   customer: PropTypes.object,
   setCustomer: PropTypes.func,
   type: PropTypes.string,
   setReload: PropTypes.func
 }
 
-export default React.memo(FormCustomer)
+export default React.memo(FormCategory)

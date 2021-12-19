@@ -8,29 +8,14 @@ const ProductPage = ({ ...others }) => {
   const [listProduct, setListProduct] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const { onGetExecute } = useRequestManager()
+  const [totalRecord, setTotalRecord] = useState(0)
+  const [sort, setSort] = useState({
+    key: '',
+    type: ''
+  })
+  const { onPostExecute } = useRequestManager()
 
   const searchInput = useDebounce(search, 3000)
-
-  const [totalRecord, setTotalRecord] = useState(0)
-
-  const getListProduct = useCallback(
-    params => {
-      async function execute(params) {
-        const result = await onGetExecute(EndPoint.GET_LIST_PRODUCT, {
-          ...params
-        })
-        if (result) {
-          setListProduct(result)
-          setTotalRecord(result.length)
-        }
-      }
-      execute(params)
-    },
-    [searchInput, page]
-  )
-
-  useEffect(getListProduct, [])
 
   const TopTab = React.useCallback(() => {
     return <TopBody search={search} setSearch={setSearch} status={4} />
@@ -44,9 +29,41 @@ const ProductPage = ({ ...others }) => {
         setPage={setPage}
         totalRecord={totalRecord}
         limit={10}
+        sort={sort}
+        setSort={setSort}
       />
     )
-  }, [listProduct, page, totalRecord])
+  }, [listProduct, page, totalRecord, sort, setSort])
+
+  const getListProduct = useCallback(
+    params => {
+      async function execute(params) {
+        const result = await onPostExecute(EndPoint.GET_LIST_PRODUCT, {
+          ...params
+        })
+        if (result) {
+          setListProduct(result.result)
+          setTotalRecord(result.total)
+        }
+      }
+      execute(params)
+    },
+    [searchInput, page]
+  )
+
+  useEffect(() => {
+    getListProduct({ search: searchInput, offset: page - 1 })
+  }, [searchInput, page])
+
+  useEffect(() => {
+    if (sort.key)
+      getListProduct({
+        search: searchInput,
+        offset: page - 1,
+        sort: sort.key,
+        type: sort.type
+      })
+  }, [sort])
 
   return (
     <WrapperContentBody

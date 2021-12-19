@@ -1,6 +1,8 @@
 import { BaseCalendar } from 'atoms'
 import PropTypes from 'prop-types'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useRequestManager, useUser } from 'hooks'
+import { EndPoint } from 'config/api'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
   ContentTitle,
   GridItemContainer,
@@ -15,63 +17,42 @@ import {
   WrapperIcon,
   WrapperListNotify
 } from './styled'
+import { withArray } from 'exp-value'
 
 const ListNotification = ({ countNotify, setCountNotify }) => {
   const [showHeaderMobile, setShowHeaderMobile] = useState(false)
   const [notifications, setNotifications] = useState([])
-
-  const fakeNotify = useMemo(() => {
-    return [
-      {
-        node: {
-          id: 'QmFzZU5vZGUtMzk3',
-          title: 'Tin đăng mới',
-          message:
-            'Thành viên Phạm Văn A đẵ đăng tin rao bán lúc 21:59 04/08/2021',
-          image_url: null,
-          notification_type: 'owner',
-          status: 'unread',
-          data: '{"id":"QXVjdGlvbkl0ZW1UeXBlLTI3OQ==","title":"Tin đăng mới","type":"product","app_route":"biz/detail"}',
-          created_at: '2021-07-26 08:25:19 UTC',
-          __typename: 'Notification'
-        },
-        __typename: 'NotificationsEdgeType'
-      },
-      {
-        node: {
-          id: 'QmFzZU5vZGUtMzk4',
-          title: 'Thành viên mới',
-          message: 'Thành viên ABC vừa đăng ký tài khoản lúc 21:59 04/08/2021',
-          image_url: null,
-          notification_type: 'admin',
-          status: 'unread',
-          data: '{"id":"QXVjdGlvbkl0ZW1UeXBlLTI3OQ==","title":"Đăng ký tài khoản","type":"user","app_route":"biz/detail"}',
-          created_at: '2021-07-26 08:25:19 UTC',
-          __typename: 'Notification'
-        },
-        __typename: 'NotificationsEdgeType'
-      },
-      {
-        node: {
-          id: 'QmFzZU5vZGUtMzk4',
-          title: 'Gia hạn bài viết',
-          message:
-            'Thành viên ABCD vừa gửi yêu cầu gia hạn tin đăng CEF lúc 21:59 04/08/2021',
-          image_url: null,
-          notification_type: 'admin',
-          status: 'read',
-          data: '{"id":"QXVjdGlvbkl0ZW1UeXBlLTI3OQ==","title":"Đăng ký tài khoản","type":"product","app_route":"biz/detail"}',
-          created_at: '2021-07-26 08:25:19 UTC',
-          __typename: 'Notification'
-        },
-        __typename: 'NotificationsEdgeType'
-      }
-    ]
-  }, [])
+  const { onPostExecute, onGetExecute } = useRequestManager()
+  const { user } = useUser()
 
   const handleResize = useCallback(() => {
     setShowHeaderMobile(window.innerWidth <= 480)
   }, [])
+
+  const getListNotify = useCallback(() => {
+    async function execute(id) {
+      if (!id) return
+      const result = await onGetExecute(EndPoint.GET_LIST_NOTIFY(id))
+      if (result) {
+        setNotifications(withArray('data', result))
+        setCountNotify(_countNotify(withArray('data', result)))
+      }
+    }
+    execute(user?.id)
+  }, [user])
+
+  const readNotify = useCallback((idNotify, type) => {
+    async function execute(idAdmin, idNotify, type) {
+      if (!idAdmin) return
+      await onPostExecute(EndPoint.READ_NOTIFY, {
+        idAdmin,
+        idNotify,
+        type
+      })
+      await getListNotify()
+    }
+    execute(user.id, idNotify, type)
+  })
 
   const getTodoList = useCallback(date => {
     const day = new Date(date).getDate()
@@ -129,7 +110,7 @@ const ListNotification = ({ countNotify, setCountNotify }) => {
             </WrapperIcon>
             <ContentTitle>Thông báo</ContentTitle>
           </Wrapper>
-          <TextLink onClick={() => console.log('click read all')}>
+          <TextLink onClick={() => readNotify(null, 'all')}>
             Đọc tất cả
           </TextLink>
         </HeaderListNotification>
@@ -142,7 +123,13 @@ const ListNotification = ({ countNotify, setCountNotify }) => {
       <WrapperListNotify>
         {notifications?.length > 0 ? (
           notifications?.map((notify, index) => (
-            <Notify key={index} notify={notify} />
+            <Notify
+              key={index}
+              notify={notify}
+              onClick={() => {
+                if (!notify?.isRead) readNotify(notify.id)
+              }}
+            />
           ))
         ) : (
           <Wrapper>Bạn chưa có thông báo</Wrapper>
@@ -155,7 +142,7 @@ const ListNotification = ({ countNotify, setCountNotify }) => {
     notifications => {
       let numOfNotify = 0
       notifications?.map(notify => {
-        if (notify.node?.status == 'unread') ++numOfNotify
+        if (!notify?.isRead) ++numOfNotify
       })
       return numOfNotify
     },
@@ -164,14 +151,16 @@ const ListNotification = ({ countNotify, setCountNotify }) => {
 
   useEffect(() => {
     handleResize()
-    setNotifications(fakeNotify)
-    setCountNotify(_countNotify(fakeNotify))
   }, [])
 
   useEffect(() => {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  useEffect(() => {
+    getListNotify()
+  }, [user])
 
   return (
     <GridItemContainer sm={6} md={4} lg={5}>
