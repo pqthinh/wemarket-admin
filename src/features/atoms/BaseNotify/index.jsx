@@ -2,17 +2,17 @@ import React from 'react'
 import { TextContent, TextLink, TextTime, TextTitle, Wrapper } from './styled'
 
 const BaseNotify = ({ notify, ...others }) => {
-  const { title, message, created_at, status } = notify.node
+  const { title, content, createdAt, isRead } = notify
 
   const notifyDefault = React.useMemo(
     () => (
-      <Wrapper status={status == 'unread'} {...others}>
+      <Wrapper status={!isRead} {...others}>
         <TextTitle className={'title'}>{title}</TextTitle>
         <TextContent>
-          {message + ' '}
-          <TextLink appearance='link'>{created_at.toDateTime()}</TextLink>
+          {content + ' '}
+          <TextLink appearance='link'>{createdAt.toDateTime()}</TextLink>
         </TextContent>
-        <TextTime>{created_at.timeAgo()}</TextTime>
+        <TextTime>{createdAt.timeAgo()}</TextTime>
       </Wrapper>
     ),
     [notify]

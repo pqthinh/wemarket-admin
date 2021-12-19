@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
 
 const CategoryPage = ({ ...others }) => {
-  const [listCategory, setListCategory] = useState([]) 
+  const [listCategory, setListCategory] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const { onGetExecute } = useRequestManager()
@@ -16,7 +16,7 @@ const CategoryPage = ({ ...others }) => {
   const [reload, setReload] = useState(true)
 
   const TopTab = React.useCallback(() => {
-    return <TopBody search={search} setSearch={setSearch} status={1} />
+    return <TopBody search={search} setSearch={setSearch} />
   }, [search])
 
   const _renderTableProduct = useCallback(() => {

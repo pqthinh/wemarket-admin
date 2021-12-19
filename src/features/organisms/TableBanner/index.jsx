@@ -33,7 +33,14 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
         show={showModalFormEdit}
         onHide={hideModal}
         body={
-          <FormEdit banner={rowData} type={'update'} setReload={setReload} />
+          <FormEdit
+            banner={rowData}
+            type={'update'}
+            setReload={e => {
+              setReload(e)
+              hideModal()
+            }}
+          />
         }
       />
     )

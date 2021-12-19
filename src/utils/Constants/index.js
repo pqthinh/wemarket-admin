@@ -35,7 +35,8 @@ const Constant = {
   dataBanner: [
     { label: 'Banner home', value: 'Banner-home' },
     { label: 'banner-category', value: 'banner-category' },
-    { label: 'banner-top-product', value: 'banner-top-product' }
+    { label: 'banner-top-product', value: 'banner-top-product' },
+    { label: 'Test thooi', value: 'test' }
   ]
 }
 

@@ -3,6 +3,7 @@ import { TopBody } from 'molecules'
 import { WrapperContentBody, TableBanner } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
+import { Modal, FormAddBanner } from './styled'
 
 const BannerPage = ({ ...others }) => {
   const [listBanner, setListBanner] = useState([])
@@ -12,19 +13,36 @@ const BannerPage = ({ ...others }) => {
   const searchInput = useDebounce(search, 5000)
   const [totalRecord, setTotalRecord] = useState(0)
   const [reload, setReload] = useState(true)
+  const [showModalAddBanner, setShowModalAddBanner] = useState(false)
 
   const TopTab = React.useCallback(() => {
     return (
       <TopBody
         search={search}
         setSearch={setSearch}
-        status={1}
-        buttonAction={() => {
-          console.log('thinh')
-        }}
+        buttonAction={() => setShowModalAddBanner(true)}
       />
     )
   }, [search])
+
+  const _renderModalAddCustomer = useCallback(() => {
+    if (!showModalAddBanner) return
+    return (
+      <Modal
+        show={showModalAddBanner}
+        onHide={() => setShowModalAddBanner(false)}
+        body={
+          <FormAddBanner
+            type={'add'}
+            setReload={e => {
+              setReload(e)
+              setShowModalAddBanner(false)
+            }}
+          />
+        }
+      />
+    )
+  }, [showModalAddBanner])
 
   const _renderTableBanner = useCallback(() => {
     return (
@@ -71,6 +89,7 @@ const BannerPage = ({ ...others }) => {
       contentBody={'Quản lý banner'}
       {...others}
     >
+      {_renderModalAddCustomer()}
       {_renderTableBanner()}
     </WrapperContentBody>
   )

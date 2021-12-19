@@ -26,7 +26,7 @@ const TopBody = ({
               ? 'Tìm kiếm bằng tên bài đăng ...'
               : status === 4
               ? 'Tìm kiếm bằng tên sản phẩm ...'
-              : 'Tìm kiếm bằng tiêu đề, mô tả...'
+              : 'Tìm kiếm ...'
           }
           name={'search'}
           rightIcon={<Icon name={'feather-search'} />}

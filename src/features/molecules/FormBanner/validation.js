@@ -2,10 +2,7 @@ import { Schema } from 'rsuite'
 const { StringType } = Schema.Types
 
 export const bannerModel = Schema.Model({
-  username: StringType().isRequired('Chưa nhập trường họ tên'),
-  phone: StringType().isRequired('Chưa nhập SĐT'),
-  email: StringType()
-    .isRequired('Chưa nhập email')
-    .isEmail('Sai định dạng email'),
-  ref: StringType()
+  type: StringType().isRequired('Chưa nhập trường mô tả'),
+  description: StringType().isRequired('Chưa nhập mô tả'),
+  url: StringType().isRequired('Chưa chon ảnh')
 })

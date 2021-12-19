@@ -10,7 +10,7 @@ import {
   Loading
 } from 'atoms'
 
-import { Panel, Container } from 'rsuite'
+import { Panel, Container, InputPicker } from 'rsuite'
 import styled from 'styled-components'
 
 export const Button = styled(BaseButton)`
@@ -79,6 +79,7 @@ export const WrapperLoading = styled(Loading)``
 export const Drag = styled(BaseUploader)`
   min-height: 150px;
   width: 100%;
+  background: #f0f0f0;
   .rs-uploader-trigger-btn {
     min-height: 150px;
     width: 100% !important;
@@ -86,4 +87,8 @@ export const Drag = styled(BaseUploader)`
 `
 export const DragText = styled(BaseText)`
   font-weight: bold;
+`
+export const PickerInput = styled(InputPicker)`
+  width: 100%;
+  border: none;
 `

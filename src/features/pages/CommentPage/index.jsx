@@ -1,6 +1,6 @@
 import { useDebounce, useRequestManager } from 'hooks'
 import { TopBody } from 'molecules'
-import {WrapperContentBody, TableComment } from 'organisms'
+import { WrapperContentBody, TableComment } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
 
@@ -16,7 +16,7 @@ const CommentPage = ({ ...others }) => {
   const [reload, setReload] = useState(true)
 
   const TopTab = React.useCallback(() => {
-    return <TopBody search={search} setSearch={setSearch} status={1} />
+    return <TopBody search={search} setSearch={setSearch} />
   }, [search])
 
   const _renderTableProduct = useCallback(() => {

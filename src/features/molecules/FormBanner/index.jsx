@@ -1,8 +1,8 @@
-import { withEmpty, withNull, withObject } from 'exp-value'
-import { useImage } from 'hooks'
+import { EndPoint } from 'config/api'
+import { withEmpty, withNull } from 'exp-value'
+import { useRequestManager } from 'hooks'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { InputPicker } from 'rsuite'
 import { Constants } from 'utils'
 import InputGroup from '../InputGroup'
 import {
@@ -13,20 +13,21 @@ import {
   Icon,
   Image,
   LayoutWrapper,
+  PickerInput,
   Title,
   Wrapper,
   WrapperLoading
 } from './styled'
 import { bannerModel } from './validation'
 
-const FormBanner = ({ banner, type, ...others }) => {
+const FormBanner = ({ banner, type, setReload, ...others }) => {
   const [data, setData] = useState({
     url: '',
     status: '',
     file: null
   })
   const [loading, setLoading] = useState(false)
-  const { resizeImage } = useImage()
+  const { onPostExecute } = useRequestManager()
 
   const contentForm = useMemo(() => {
     if (type == 'add') {
@@ -54,7 +55,17 @@ const FormBanner = ({ banner, type, ...others }) => {
   )
 
   const bannerRequest = useCallback((data, type) => {
-    console.log(data, type, 'banner')
+    async function execute(data) {
+      let endPoint =
+        type == 'add' ? EndPoint.CREATE_BANNER : EndPoint.UPDATE_BANNER
+
+      const result = await onPostExecute(endPoint, { ...banner, ...data })
+      if (result) {
+        setReload(true)
+        setLoading(false)
+      }
+    }
+    execute(data, type)
   }, [])
 
   const onSubmit = useCallback(
@@ -62,15 +73,15 @@ const FormBanner = ({ banner, type, ...others }) => {
       setLoading(true)
       bannerRequest(data, type)
     },
-    [data]
+    [type]
   )
 
-  const _handleChangeImage = useCallback(async e => {
-    const image = await resizeImage(withEmpty('blobFile', e[e.length - 1]))
+  const _handleChangeImage = useCallback(e => {
+    const uri = URL.createObjectURL(withEmpty('blobFile', e))
     setData(prev => ({
       ...prev,
-      url: withEmpty('blobFile', image),
-      file: withEmpty('blobFile', image)
+      url: uri,
+      file: uri
     }))
   }, [])
 
@@ -94,14 +105,8 @@ const FormBanner = ({ banner, type, ...others }) => {
             onChange={e => _handleChangeImage(e[e.length - 1])}
             autoUpload={false}
           >
-            {data.image || data.file ? (
-              <Image
-                source={
-                  (data.file &&
-                    URL.createObjectURL(withObject('file', data))) ||
-                  data.url
-                }
-              />
+            {data.url ? (
+              <Image source={data.url} />
             ) : (
               <DragText>Tải ảnh lên ...</DragText>
             )}
@@ -113,7 +118,7 @@ const FormBanner = ({ banner, type, ...others }) => {
             placeholder={'Chọn kiểu banner'}
             name={'type'}
             leftIcon={<Icon name={'feather-type'} />}
-            accepter={InputPicker}
+            accepter={PickerInput}
             data={Constants.dataBanner}
             fluid
             require
@@ -138,7 +143,10 @@ const FormBanner = ({ banner, type, ...others }) => {
   useEffect(() => {
     if (!banner) return
     const expData = {
-      url: withNull('url', banner)
+      url: withNull('url', banner),
+      type: withEmpty('type', banner),
+      description: withEmpty('description', banner),
+      status: withEmpty('status', banner)
     }
     setData(expData)
   }, [banner])
