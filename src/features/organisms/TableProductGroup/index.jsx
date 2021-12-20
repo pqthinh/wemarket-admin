@@ -19,6 +19,9 @@ import {
   WrapperIconButton,
   WrapperImageCell
 } from './styled'
+import { useRequestManager, useUser } from 'hooks'
+import { EndPoint } from 'config/api'
+
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
   const hideModal = useCallback(() => {
@@ -52,9 +55,26 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
 }
 
 const ToggleCell = ({ rowData, ...props }) => {
-  const changeStatus = useCallback((id, status) => {
-    console.log(id, status)
-  }, [])
+  const { onPostExecute } = useRequestManager()
+  const { user } = useUser()
+  const changeStatus = useCallback(
+    (id, status) => {
+      console.log(id, status, 'product')
+      async function execute(id, type) {
+        let endPoint =
+          !type == 'ban' ? EndPoint.ADMIN_ACTIVE_POST : EndPoint.ADMIN_BAN_POST
+        const result = await onPostExecute(endPoint, {
+          idProduct: id,
+          idAdmin: user?.id
+        })
+        if (result) {
+          console.log(result, 'active / ban product')
+        }
+      }
+      execute(id, status)
+    },
+    [user]
+  )
 
   const handleActive = useCallback((id, status) => {
     Notification['info']({

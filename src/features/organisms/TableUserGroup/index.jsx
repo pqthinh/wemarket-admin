@@ -20,6 +20,8 @@ import {
   WrapperIcon,
   WrapperIconButton
 } from './styled'
+import { useRequestManager, useUser } from 'hooks'
+import { EndPoint } from 'config/api'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
@@ -82,9 +84,25 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
 }
 
 const ToggleCell = ({ rowData, ...props }) => {
-  const changeStatus = useCallback((id, status) => {
-    console.log(id, status, 'customer')
-  }, [])
+  const { onPostExecute } = useRequestManager()
+  const { user } = useUser()
+  const changeStatus = useCallback(
+    (id, status) => {
+      console.log(id, status, 'user')
+      async function execute(id, type) {
+        let endPoint =
+          !type == 'ban' ? EndPoint.ADMIN_ACTIVE_USER : EndPoint.ADMIN_BAN_USER
+        const result = await onPostExecute(endPoint, {
+          uid: id
+        })
+        if (result) {
+          console.log(result, 'active / ban user ')
+        }
+      }
+      execute(id, status)
+    },
+    [user]
+  )
 
   const handleActive = useCallback((id, status) => {
     Notification['info']({
