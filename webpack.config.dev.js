@@ -36,8 +36,8 @@ module.exports = webpackMerge.smart(baseConfig, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        BASE_API_URL: JSON.stringify('http://localhost:8080/api/'),
-        //BASE_API_URL: JSON.stringify('https://wemarket-api.herokuapp.com/api/'),
+        // BASE_API_URL: JSON.stringify('http://localhost:8080/api/'),
+        BASE_API_URL: JSON.stringify('https://wemarket-api.herokuapp.com/api/'),
         NODE_ENV: JSON.stringify('development'),
         ENCRYPTION_KEY: JSON.stringify('marketplace'),
         LOCAL_STORAGE_KEY: JSON.stringify('marketplace'),
