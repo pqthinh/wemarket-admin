@@ -62,7 +62,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
   )
 }
 
-const ToggleCell = ({ rowData, ...props }) => {
+const ToggleCell = ({ rowData, setReload, ...props }) => {
   const { onPostExecute } = useRequestManager()
 
   const changeStatus = useCallback((id, status) => {
@@ -73,6 +73,7 @@ const ToggleCell = ({ rowData, ...props }) => {
         status: type
       })
       if (result) {
+        setReload(true)
         console.log(result, 'active / ban banner')
       }
     }

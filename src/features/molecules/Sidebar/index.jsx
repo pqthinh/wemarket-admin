@@ -1,5 +1,5 @@
 import { IMAGES } from 'assets'
-import { withArray, withEmpty } from 'exp-value'
+import { withEmpty } from 'exp-value'
 import { useStorage, useToken, useUser } from 'hooks'
 import React, { useCallback, useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -112,41 +112,39 @@ const Sidebar = props => {
     )
   }, [activeKey])
 
-  const renderFooter = useCallback(
-    user => {
-      return (
-        <Footer>
-          <Whisper
-            placement='auto'
-            trigger='hover'
-            controlId='control-id-hover-enterable'
-            onClick={goProfilePage}
-            speaker={
-              <WrapperPopover title={withEmpty('full_name', user)}>
-                <Text link onClick={goProfilePage}>
-                  Trang cá nhân
-                </Text>
+  const renderFooter = useCallback(user => {
+    console.log(user)
+    return (
+      <Footer>
+        <Whisper
+          placement='auto'
+          trigger='hover'
+          controlId='control-id-hover-enterable'
+          onClick={goProfilePage}
+          speaker={
+            <WrapperPopover title={withEmpty('full_name', user)}>
+              <Text link onClick={goProfilePage}>
+                Trang cá nhân
+              </Text>
 
-                <Button onClick={onLogout}>
-                  <MenuIcon name='feather-log-out' size={20} />
-                  <Text>Đăng xuất</Text>
-                </Button>
-              </WrapperPopover>
-            }
-            enterable
-          >
-            <CardAvatar
-              source={withEmpty('avatar_url', user) || IMAGES.AVATAR.default}
-              title={withArray('email.split("@")', user)[0]}
-              subTitle={withEmpty('role', user) || 'Admin'}
-              alt={withEmpty('name', user)}
-            />
-          </Whisper>
-        </Footer>
-      )
-    },
-    [user]
-  )
+              <Button onClick={onLogout}>
+                <MenuIcon name='feather-log-out' size={20} />
+                <Text>Đăng xuất</Text>
+              </Button>
+            </WrapperPopover>
+          }
+          enterable
+        >
+          <CardAvatar
+            source={withEmpty('avatar_url', user) || IMAGES.AVATAR.default}
+            title={withEmpty('email', user)}
+            subTitle={withEmpty('role', user) || 'Admin'}
+            alt={withEmpty('name', user) || 'thinhpq'}
+          />
+        </Whisper>
+      </Footer>
+    )
+  }, [])
 
   // handleActiveMenu
   useEffect(() => {

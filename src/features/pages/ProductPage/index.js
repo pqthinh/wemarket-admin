@@ -9,6 +9,7 @@ const ProductPage = ({ ...others }) => {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [totalRecord, setTotalRecord] = useState(0)
+  const [reload, setReload] = useState(true)
   const [sort, setSort] = useState({
     key: '',
     type: ''
@@ -28,6 +29,7 @@ const ProductPage = ({ ...others }) => {
         page={page}
         setPage={setPage}
         totalRecord={totalRecord}
+        setReload={setReload}
         limit={10}
         sort={sort}
         setSort={setSort}
@@ -52,8 +54,8 @@ const ProductPage = ({ ...others }) => {
   )
 
   useEffect(() => {
-    getListProduct({ search: searchInput, offset: page - 1 })
-  }, [searchInput, page])
+    if (reload) getListProduct({ search: searchInput, offset: page - 1 })
+  }, [searchInput, page, reload])
 
   useEffect(() => {
     if (sort.key)

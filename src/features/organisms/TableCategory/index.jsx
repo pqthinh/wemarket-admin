@@ -1,4 +1,4 @@
-import { BasePagination, CheckCell, ImageCell, TextCell } from 'atoms'
+import { BasePagination, CheckCell, TextCell } from 'atoms'
 import { FormChangePassword } from 'molecules'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -11,7 +11,6 @@ import {
   FormEdit,
   Header,
   Icon,
-  Link,
   Modal,
   TextNotification,
   Toggle,
