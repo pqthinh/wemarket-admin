@@ -4,24 +4,27 @@ import {
   BaseColumn,
   BaseContainer,
   BaseIcon,
-  BaseImage,
   BaseLink,
   BaseModal,
   BaseText,
-  BaseToggle,
-  ImageCell
+  ImageCell,
+  TextCell
 } from 'atoms'
 import { Button, ButtonToolbar, IconButton, Table } from 'rsuite'
 import styled from 'styled-components'
-import { FormCustomer } from 'molecules'
 
 export const Wrapper = styled(BaseContainer)`
   max-height: calc(100vh - 150px);
   @media screen and (max-width: 980px) {
     margin: 10px;
   }
+
+  .rs-table-cell-content {
+    display: flex;
+    min-height: 40px;
+    align-items: center;
+  }
 `
-export const Image = styled(BaseImage)``
 export const Text = styled(BaseText)``
 export const TextNoData = styled(BaseText)`
   top: 45%;
@@ -29,7 +32,10 @@ export const TextNoData = styled(BaseText)`
   position: absolute;
 `
 export const Cell = styled(BaseCell)`
-  line-height: 30px;
+  line-height: 50px;
+  .rs-table-cell-content {
+    display: flex;
+  }
 `
 export const Column = styled(BaseColumn)``
 export const Checkbox = styled(BaseCheckbox)``
@@ -64,9 +70,8 @@ export const Modal = styled(BaseModal)`
     min-height: 300px;
   }
 `
-export const FormEdit = styled(FormCustomer)``
+
 export const ContainerBlock = styled.div``
-export const Toggle = styled(BaseToggle)``
 export const Toolbar = styled(ButtonToolbar)`
   margin: 20px auto 0;
 `
@@ -80,6 +85,7 @@ export const WrapperImageCell = styled(ImageCell)`
   img {
     width: 100%;
     border-radius: 4px;
-    min-height: 100px;
+    height: 30px;
   }
 `
+export const WrapperTextCell = styled(TextCell)``

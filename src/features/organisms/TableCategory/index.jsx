@@ -1,184 +1,70 @@
-import { BasePagination, CheckCell, TextCell } from 'atoms'
-import { FormChangePassword } from 'molecules'
+import { FormCategory } from 'molecules'
 import PropTypes from 'prop-types'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
-import { Checkbox, Notification, Table } from 'rsuite'
+import React, { useCallback, useState } from 'react'
+import { Table } from 'rsuite'
 import {
-  ButtonNotification,
   Cell,
   Column,
-  FormEdit,
   Header,
   Icon,
   Modal,
-  TextNotification,
-  Toggle,
-  Toolbar,
   Wrapper,
   WrapperIcon,
   WrapperIconButton,
-  WrapperImageCell
+  WrapperImageCell,
+  WrapperTextCell
 } from './styled'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
-  const [showModalFormEdit, setShowModalFormEdit] = useState(false)
-  const [showModalFormChangePassword, setShowModalFormChangePassword] =
+  const [showModalFormEditCategory, setShowModalFormEditCategory] =
     useState(false)
 
   const hideModal = useCallback(() => {
-    setShowModalFormEdit(false)
-  }, [showModalFormEdit])
+    setShowModalFormEditCategory(false)
+  }, [showModalFormEditCategory])
 
-  const _renderModalFormCustomer = useCallback(() => {
+  const _renderModalFormCategory = useCallback(() => {
     return (
       <Modal
-        show={showModalFormEdit}
+        show={showModalFormEditCategory}
         onHide={hideModal}
         body={
-          <FormEdit customer={rowData} type={'update'} setReload={setReload} />
-        }
-      />
-    )
-  }, [showModalFormEdit])
-
-  const hideModalChangePassword = useCallback(() => {
-    setShowModalFormChangePassword(false)
-  }, [showModalFormChangePassword])
-
-  const _renderModalFormChangePassword = useCallback(() => {
-    return (
-      <Modal
-        show={showModalFormChangePassword}
-        onHide={hideModalChangePassword}
-        body={
-          <FormChangePassword
-            type='change-password-user'
+          <FormCategory
+            type='change-edit-category'
             setReload={setReload}
             id={rowData['id']}
           />
         }
       />
     )
-  }, [showModalFormChangePassword])
+  }, [showModalFormEditCategory])
 
   return (
     <Cell {...props}>
-      {showModalFormEdit && _renderModalFormCustomer()}
-      {showModalFormChangePassword && _renderModalFormChangePassword()}
+      {showModalFormEditCategory && _renderModalFormCategory()}
       <WrapperIcon>
         <WrapperIconButton
-          onClick={() => setShowModalFormEdit(true)}
+          onClick={() => console.log(rowData['id'])}
           appearance='subtle'
-          icon={<Icon name='feather-edit' />}
+          icon={<Icon name='feather-trash-2' />}
         />
         <WrapperIconButton
-          onClick={() => setShowModalFormChangePassword(true)}
-          icon={<Icon name='feather-key' strokeWidth={1} size={24} />}
+          onClick={() => setShowModalFormEditCategory(true)}
+          icon={<Icon name='feather-edit' strokeWidth={1} size={24} />}
         />
       </WrapperIcon>
     </Cell>
   )
 }
 
-const ToggleCell = ({ rowData, ...props }) => {
-  const changeStatus = useCallback((id, status) => {
-    console.log(id, status, 'customer')
-  }, [])
-
-  const handleActive = useCallback((id, status) => {
-    Notification['info']({
-      title: 'Kích hoạt tài khoản',
-      duration: 10000,
-      description: (
-        <Wrapper>
-          <TextNotification>
-            Bạn muốn kích hoạt hoặc ban tài khoản này
-          </TextNotification>
-          <Toolbar>
-            <ButtonNotification
-              onClick={() => {
-                Notification.close()
-                changeStatus(id, status)
-              }}
-              success
-            >
-              Xác nhận
-            </ButtonNotification>
-            <ButtonNotification onClick={() => Notification.close()}>
-              Hủy bỏ
-            </ButtonNotification>
-          </Toolbar>
-        </Wrapper>
-      )
-    })
-  }, [])
-
-  return (
-    <Cell {...props}>
-      {rowData['status'] !== 'deactive' ? (
-        <Toggle
-          active={rowData['status'] === 'active'}
-          onChange={() =>
-            handleActive(
-              rowData['id'],
-              rowData['status'] === 'active' ? 'ban' : 'active'
-            )
-          }
-          checkedChildren={<Icon name='feather-check' />}
-          unCheckedChildren={<Icon name='feather-x' />}
-        />
-      ) : null}
-    </Cell>
-  )
-}
-
-const TableCategory = ({
-  expData,
-  totalRecord,
-  page,
-  setPage,
-  loading,
-  setReload,
-  limit,
-  ...others
-}) => {
-  const history = useHistory()
-  const location = useLocation()
-  const { search } = useLocation()
-
-  const onClickCheckbox = useCallback(() => {}, [])
-  const onCheckAll = useCallback(() => {}, [])
-
-  const onLoadPage = useCallback(
-    page => {
-      setPage(page)
-      history.push(location.pathname + '?page=' + page)
-    },
-    [page]
-  )
-
-  const onLoadParamPage = useCallback(() => {
-    const page = new URLSearchParams(search).get('page')
-    if (page) setPage(eval(page))
-  }, [location.pathname])
-
+const TableCategory = ({ expData, loading, setReload, ...others }) => {
   const _renderTable = useCallback(
     expData => {
       return (
-        <Table
-          data={expData}
-          loading={loading}
-          wordWrap
-          id='table'
-          height={window.innerHeight - 210}
-          {...others}
-        >
-          <Column width={40} align='center'>
-            <Header>
-              <Checkbox inline onChange={onCheckAll} />
-            </Header>
-            <CheckCell dataKey='id' onChange={onClickCheckbox} />
+        <Table data={expData} loading={loading} id='table-category' {...others}>
+          <Column width={100} align='center'>
+            <Header>ID</Header>
+            <WrapperTextCell dataKey='id' />
           </Column>
 
           <Column width={60} align='center'>
@@ -186,34 +72,13 @@ const TableCategory = ({
             <WrapperImageCell dataKey='icon' />
           </Column>
 
-          <Column width={150} align='center'>
+          <Column width={120} align='center'>
             <Header>Ảnh</Header>
             <WrapperImageCell dataKey='image' />
           </Column>
-
-          <Column width={40} align='center'>
-            <Header>ID</Header>
-            <TextCell dataKey='id' />
-          </Column>
-
-          {/* <Column width={60} align='center'>
-            <Header>Danh mục cha</Header>
-            <TextCell dataKey='idCategory' />
-          </Column> */}
-
-          <Column width={120} align='center'>
-            <Header>Danh mục con</Header>
-            <TextCell dataKey='name' />
-          </Column>
-
           <Column width={160} align='center'>
-            <Header>Mô tả sản phẩm</Header>
-            <TextCell dataKey='description' />
-          </Column>
-
-          <Column width={100}>
-            <Header>Kích hoạt</Header>
-            <ToggleCell dataKey='status' setReload={setReload} />
+            <Header>Mô tả</Header>
+            <WrapperTextCell dataKey='description' />
           </Column>
 
           <Column width={120}>
@@ -231,19 +96,7 @@ const TableCategory = ({
     [loading, window.innerHeight]
   )
 
-  useEffect(onLoadParamPage, [location.pathname])
-
-  return (
-    <Wrapper {...others}>
-      {_renderTable(expData)}
-      <BasePagination
-        onChangePage={e => onLoadPage(e)}
-        total={totalRecord}
-        activePage={page}
-        limit={limit}
-      />
-    </Wrapper>
-  )
+  return <Wrapper {...others}>{_renderTable(expData)}</Wrapper>
 }
 
 ActionCell.propTypes = {
@@ -264,13 +117,6 @@ TableCategory.propTypes = {
   showModalFormEdit: PropTypes.bool,
   setShowModalFormEdit: PropTypes.func,
   limit: PropTypes.number
-}
-ToggleCell.propTypes = {
-  rowData: PropTypes.object,
-  setReload: PropTypes.func
-}
-FormEdit.propTypes = {
-  setReload: PropTypes.func
 }
 
 export default React.memo(TableCategory)
