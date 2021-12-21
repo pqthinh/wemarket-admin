@@ -20,6 +20,8 @@ import {
   WrapperIcon,
   WrapperIconButton
 } from './styled'
+import { useRequestManager, useUser } from 'hooks'
+import { EndPoint } from 'config/api'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
@@ -81,38 +83,60 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
   )
 }
 
-const ToggleCell = ({ rowData, ...props }) => {
-  const changeStatus = useCallback((id, status) => {
-    console.log(id, status, 'customer')
-  }, [])
+const ToggleCell = ({ rowData, setReload, ...props }) => {
+  const { onPostExecute } = useRequestManager()
+  const { user } = useUser()
+  const changeStatus = useCallback(
+    (id, status) => {
+      console.log(id, status, 'user')
+      async function execute(id, type) {
+        let endPoint =
+          type == 'active'
+            ? EndPoint.ADMIN_ACTIVE_USER
+            : EndPoint.ADMIN_BAN_USER
+        const result = await onPostExecute(endPoint, {
+          uid: id
+        })
+        if (result) {
+          setReload(true)
+          console.log(result, 'active / ban user ')
+        }
+      }
+      execute(id, status)
+    },
+    [user]
+  )
 
-  const handleActive = useCallback((id, status) => {
-    Notification['info']({
-      title: 'Kích hoạt tài khoản',
-      duration: 10000,
-      description: (
-        <Wrapper>
-          <TextNotification>
-            Bạn muốn kích hoạt hoặc ban tài khoản này
-          </TextNotification>
-          <Toolbar>
-            <ButtonNotification
-              onClick={() => {
-                Notification.close()
-                changeStatus(id, status)
-              }}
-              success
-            >
-              Xác nhận
-            </ButtonNotification>
-            <ButtonNotification onClick={() => Notification.close()}>
-              Hủy bỏ
-            </ButtonNotification>
-          </Toolbar>
-        </Wrapper>
-      )
-    })
-  }, [])
+  const handleActive = useCallback(
+    (id, status) => {
+      Notification['info']({
+        title: 'Kích hoạt tài khoản',
+        duration: 10000,
+        description: (
+          <Wrapper>
+            <TextNotification>
+              Bạn muốn kích hoạt hoặc ban tài khoản này
+            </TextNotification>
+            <Toolbar>
+              <ButtonNotification
+                onClick={() => {
+                  Notification.close()
+                  changeStatus(id, status)
+                }}
+                success
+              >
+                Xác nhận
+              </ButtonNotification>
+              <ButtonNotification onClick={() => Notification.close()}>
+                Hủy bỏ
+              </ButtonNotification>
+            </Toolbar>
+          </Wrapper>
+        )
+      })
+    },
+    [user]
+  )
 
   return (
     <Cell {...props}>
@@ -121,7 +145,7 @@ const ToggleCell = ({ rowData, ...props }) => {
           active={rowData['status'] === 'active'}
           onChange={() =>
             handleActive(
-              rowData['id'],
+              rowData['uid'],
               rowData['status'] === 'active' ? 'ban' : 'active'
             )
           }

@@ -6,7 +6,7 @@ import { WrapperImageCell, Image } from './styled'
 const ImageCell = ({ rowData, dataKey, ...others }) => {
   return (
     <WrapperImageCell {...others}>
-      <Image source={withRandomImage(dataKey, rowData)} width='50' />
+      <Image source={withRandomImage(dataKey, rowData)} />
     </WrapperImageCell>
   )
 }

@@ -20,6 +20,8 @@ import {
   WrapperIconButton,
   WrapperImageCell
 } from './styled'
+import { useRequestManager } from 'hooks'
+import { EndPoint } from 'config/api'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
@@ -81,9 +83,22 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
   )
 }
 
-const ToggleCell = ({ rowData, ...props }) => {
+const ToggleCell = ({ rowData, setReload, ...props }) => {
+  const { onPostExecute } = useRequestManager()
+
   const changeStatus = useCallback((id, status) => {
-    console.log(id, status, 'customer')
+    console.log(id, status, 'comment')
+    async function execute(id, type) {
+      const result = await onPostExecute(EndPoint.CHANGE_STATUS_COMMENT, {
+        idComment: id,
+        status: type
+      })
+      if (result) {
+        setReload(true)
+        console.log(result, 'active / ban comment')
+      }
+    }
+    execute(id, status)
   }, [])
 
   const handleActive = useCallback((id, status) => {

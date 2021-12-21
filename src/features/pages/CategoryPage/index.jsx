@@ -6,13 +6,10 @@ import { EndPoint } from 'config/api'
 
 const CategoryPage = ({ ...others }) => {
   const [listCategory, setListCategory] = useState([])
-  const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const { onGetExecute } = useRequestManager()
-
   const searchInput = useDebounce(search, 5000)
 
-  const [totalRecord, setTotalRecord] = useState(0)
   const [reload, setReload] = useState(true)
 
   const TopTab = React.useCallback(() => {
@@ -22,30 +19,29 @@ const CategoryPage = ({ ...others }) => {
   const _renderTableProduct = useCallback(() => {
     return (
       <TableCategory
+        isTree
+        rowKey='id'
         expData={listCategory}
-        page={page}
-        setPage={setPage}
-        totalRecord={totalRecord}
+        shouldUpdateScroll={true}
+        defaultExpandAllRows={true}
         loading={reload}
+        autoHeight={true}
         setReload={setReload}
-        limit={10}
       />
     )
-  }, [listCategory, page, reload, totalRecord])
+  }, [listCategory, reload])
 
   const getListCategory = useCallback(() => {
-    async function execute(search, page) {
+    async function execute(search) {
       const result = await onGetExecute(EndPoint.GET_LIST_CATEGORY, {
-        query: search,
-        offset: page
+        query: search
       })
       if (result) {
-        setListCategory(result.result)
-        setTotalRecord(result.total)
+        setListCategory(result.listCategory)
       }
     }
-    execute(searchInput, page - 1)
-  }, [searchInput, page, reload])
+    execute(searchInput)
+  }, [searchInput, reload])
 
   useEffect(() => {
     if (reload) {
@@ -56,7 +52,7 @@ const CategoryPage = ({ ...others }) => {
 
   useEffect(() => {
     if (!reload) getListCategory()
-  }, [searchInput, page])
+  }, [searchInput])
 
   return (
     <WrapperContentBody

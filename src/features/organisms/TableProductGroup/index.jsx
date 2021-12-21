@@ -19,6 +19,9 @@ import {
   WrapperIconButton,
   WrapperImageCell
 } from './styled'
+import { useRequestManager, useUser } from 'hooks'
+import { EndPoint } from 'config/api'
+
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
   const hideModal = useCallback(() => {
@@ -51,36 +54,61 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
   )
 }
 
-const ToggleCell = ({ rowData, ...props }) => {
-  const changeStatus = useCallback((id, status) => {
-    console.log(id, status)
-  }, [])
+const ToggleCell = ({ rowData, setReload, ...props }) => {
+  const { onPostExecute } = useRequestManager()
+  const { user } = useUser()
+  const changeStatus = useCallback(
+    (id, status) => {
+      console.log(id, status, 'product')
+      async function execute(id, type) {
+        let endPoint =
+          type == 'active'
+            ? EndPoint.ADMIN_ACTIVE_POST
+            : EndPoint.ADMIN_BAN_POST
+        const result = await onPostExecute(endPoint, {
+          idProduct: id,
+          idAdmin: user?.id
+        })
+        if (result) {
+          setReload(true)
+          console.log(result, 'active / ban product')
+        }
+      }
+      execute(id, status)
+    },
+    [user]
+  )
 
-  const handleActive = useCallback((id, status) => {
-    Notification['info']({
-      title: 'Kích hoạt sản phẩm',
-      duration: 10000,
-      description: (
-        <Wrapper>
-          <TextNotification>Bạn muốn kích hoạt sản phẩm này ?</TextNotification>
-          <Toolbar>
-            <ButtonNotification
-              onClick={() => {
-                Notification.close()
-                changeStatus(id, status)
-              }}
-              success
-            >
-              Xác nhận
-            </ButtonNotification>
-            <ButtonNotification onClick={() => Notification.close()}>
-              Hủy bỏ
-            </ButtonNotification>
-          </Toolbar>
-        </Wrapper>
-      )
-    })
-  }, [])
+  const handleActive = useCallback(
+    (id, status) => {
+      Notification['info']({
+        title: 'Kích hoạt sản phẩm',
+        duration: 10000,
+        description: (
+          <Wrapper>
+            <TextNotification>
+              Bạn muốn kích hoạt sản phẩm này ?
+            </TextNotification>
+            <Toolbar>
+              <ButtonNotification
+                onClick={() => {
+                  Notification.close()
+                  changeStatus(id, status)
+                }}
+                success
+              >
+                Xác nhận
+              </ButtonNotification>
+              <ButtonNotification onClick={() => Notification.close()}>
+                Hủy bỏ
+              </ButtonNotification>
+            </Toolbar>
+          </Wrapper>
+        )
+      })
+    },
+    [user]
+  )
 
   return (
     <Cell {...props}>
@@ -107,6 +135,7 @@ const TableProductGroup = ({
   limit,
   sort,
   setSort,
+  setReload,
   ...others
 }) => {
   const history = useHistory()
@@ -209,7 +238,7 @@ const TableProductGroup = ({
 
           <Column width={100}>
             <Header>Kích hoạt</Header>
-            <ToggleCell dataKey='status' />
+            <ToggleCell dataKey='status' setReload={setReload} />
           </Column>
           <Column width={120}>
             <Header>Hành động</Header>
