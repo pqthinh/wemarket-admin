@@ -1,5 +1,6 @@
 import { BasePagination, CheckCell, TextCell } from 'atoms'
-import { FormChangePassword } from 'molecules'
+import { EndPoint } from 'config/api'
+import { useRequestManager } from 'hooks'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -20,14 +21,9 @@ import {
   WrapperIconButton,
   WrapperImageCell
 } from './styled'
-import { useRequestManager } from 'hooks'
-import { EndPoint } from 'config/api'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
-  const [showModalFormChangePassword, setShowModalFormChangePassword] =
-    useState(false)
-
   const hideModal = useCallback(() => {
     setShowModalFormEdit(false)
   }, [showModalFormEdit])
@@ -44,39 +40,14 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
     )
   }, [showModalFormEdit])
 
-  const hideModalChangePassword = useCallback(() => {
-    setShowModalFormChangePassword(false)
-  }, [showModalFormChangePassword])
-
-  const _renderModalFormChangePassword = useCallback(() => {
-    return (
-      <Modal
-        show={showModalFormChangePassword}
-        onHide={hideModalChangePassword}
-        body={
-          <FormChangePassword
-            type='change-password-user'
-            setReload={setReload}
-            id={rowData['id']}
-          />
-        }
-      />
-    )
-  }, [showModalFormChangePassword])
-
   return (
     <Cell {...props}>
       {showModalFormEdit && _renderModalFormCustomer()}
-      {showModalFormChangePassword && _renderModalFormChangePassword()}
       <WrapperIcon>
         <WrapperIconButton
           onClick={() => setShowModalFormEdit(true)}
           appearance='subtle'
           icon={<Icon name='feather-edit' />}
-        />
-        <WrapperIconButton
-          onClick={() => setShowModalFormChangePassword(true)}
-          icon={<Icon name='feather-key' strokeWidth={1} size={24} />}
         />
       </WrapperIcon>
     </Cell>
