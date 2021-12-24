@@ -15,6 +15,6 @@ server: `yarn run server` ( chạy trên cổng 4000 )
 
 Tài khoản đăng nhập:
 {
-    "email": "thinh@gamil.com",
-    "password": "thinh"
+    "email": "thinh@gmail.com",
+    "password": "thinhpq"
 }
