@@ -1,4 +1,4 @@
-import { BasePagination, CheckCell, ImageCell, TextCell } from 'atoms'
+import { BasePagination, CheckCell, TextCell, AvatarCell } from 'atoms'
 import { FormChangePassword } from 'molecules'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -206,7 +206,7 @@ const TableCustomerGroup = ({
           </Column>
           <Column width={60} align='center'>
             <Header>Avatar</Header>
-            <ImageCell dataKey='avatar' />
+            <AvatarCell dataKey='avatar' />
           </Column>
 
           <Column width={160} sortable>
